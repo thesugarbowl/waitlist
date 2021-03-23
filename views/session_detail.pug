@@ -1,0 +1,59 @@
+extends layout 
+
+block content 
+  nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
+      span.navbar-toggler-icon
+    #main-navbar.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto(style='margin-left: 10px;')
+        li.nav-item
+          a.nav-link(href='/waitlist/gravlaxisnotalaxative') Home
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions') Active
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions/waiting') Waiting
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions/notified') Notified
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions/archived') Archived
+        li.nav-item
+          a.nav-link(href='/waitlist/session/create') Create New
+  main.container(role='main' style='padding: 60px;')
+    h1= title
+    h3 #[strong Name: ] #{session.name}
+    br
+    - for (var i = 0; i < waitStartArray.length; i++)
+        - var waitStartId = waitStartArray[i]._id.toString()
+        - var sessionId = session._id.toString()
+            - if (waitStartArray[i]._id.toString() == sessionId.toString()) 
+                - var position = i + 1
+
+    h4 #[strong Status: ] #{session.status}
+    br
+    - if (!session.wait_end)
+      p #[strong CURRENT Waitlist Position: ] #{position} (of #{waitingCount})
+    p #[strong Starting Waitlist Position: ] #{session.position}
+    p #[strong Wait Duration ] #{session.wait_end ? `(Completed): ${session.wait_completed} min` : `(Ongoing): ${session.wait_duration} min`}
+    p #[strong Time Started Wait: ] #{session.waitStart_localTime} 
+    - if (session.wait_end)
+      p #[strong First Notification: ] #{session.waitEnd_localTime} 
+    p #[strong # Of Times Notified: ] #{session.notify_total}
+    p #[strong Number Of People: ] #{session.party_num}
+    p #[strong Seating Preference: ] #{session.seating}
+    p #[strong Cell Number: ] #{session.cell_num}
+    p #[strong Wireless Provider: ] #{session.cell_provider}
+    p #[strong Email: ] #{session.email}
+    br
+    hr
+    p
+      a(href=session.urlDetails+'/notify') 
+        button.btn.btn-primary#detailbuttons(type='button') Notify Guest
+    br
+    br
+    p
+      a(href=session.urlDetails+'/update') 
+        button.btn.btn-success#detailbuttons(type='button') Update Session
+    br
+    p
+      a(href=session.urlDetails+'/delete') 
+        button.btn.btn-danger#detailbuttons(type='button') Delete Session

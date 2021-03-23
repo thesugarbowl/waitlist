@@ -1,0 +1,31 @@
+extends layout 
+
+block content 
+  nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
+      span.navbar-toggler-icon
+    #main-navbar.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto(style='margin-left: 10px;')
+        li.nav-item
+          a.nav-link(href='/waitlist/gravlaxisnotalaxative') Home
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions') Active
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions/waiting') Waiting
+        li.nav-item
+          a.nav-link(href='/waitlist/sessions/notified') Notified
+        li.nav-item.active
+          a.nav-link(href='/waitlist/sessions/archived') Archived
+        li.nav-item
+          a.nav-link(href='/waitlist/session/create') Create New
+  main.container(role='main' style='padding: 60px;')
+    h1= title
+    p <em>Only sessions for 'today' are shown. This page resets daily at midnight.</em>
+    p <em>Ordered by (1) wait start time (most recent at the top), (2) first name.</em>
+    ol
+        each session in sessions_archived
+            li 
+                a(href=session.urlDetails) #{session.name}
+                | ; party of #[strong #{session.party_num}]; started waiting at #[strong #{session.waitStart_localTime}]
+        else 
+            li There are no 'Archived' Sessions.

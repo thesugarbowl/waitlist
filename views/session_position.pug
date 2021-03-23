@@ -1,0 +1,50 @@
+extends layout
+
+block content 
+    h1= title
+    p.lead You can bookmark this page to track your progress.
+    p (Remember to refresh the page!)
+    hr
+    h2 #[strong #{session.name}]
+    br
+
+    - for (var i = 0; i < waitStartArray.length; i++)
+        - var waitStartId = waitStartArray[i]._id.toString()
+        - var sessionId = session._id.toString()
+            - if (waitStartArray[i]._id.toString() == sessionId.toString()) 
+                - var position = i + 1
+    
+    - if (session.status == 'Waiting')
+        h4 #[strong Status: ] Waiting
+        p You are number #[h2 #{position}] (of #{waitingCount}) in line.
+    - else if (session.status == 'Notified')
+        h3 #[strong Status: Notified]
+        h4 Come on in!
+    - else if (session.status == 'Archived')
+        p.lead You have been removed from the waitlist.
+    hr
+    h5 #[strong Your Details:]
+    br 
+    - if (session.status == ('Notified'))
+        p #[strong # Of Times Notified ](text +/- email): #{session.notify_total}
+        p #[strong First Notification: ] #{session.waitEnd_localTime}
+    - else if (session.status == ('Archived'))
+        p #[strong # Of Times Notified ](text +/- email): #{session.notify_total}
+        p #[strong First Notification: ] #{session.waitEnd_localTime}
+    p #[strong Starting Waitlist Position: ] #{session.position}
+    p #[strong Number Of People: ] #{session.party_num}
+    p #[strong Seating Preference: ] #{session.seating}
+    p #[strong Cell Number: ] #{session.cell_num}
+    p #[strong Wireless Provider: ] #{session.cell_provider}
+    p #[strong Email: ] #{session.email}
+    br
+    - if (session.status == 'Waiting')
+        a(href=session.urlPosition) 
+            button.btn.btn-success#detailbuttons(type='button' style='margin-bottom: 40px;') Refresh Page
+        br
+        a(href=session.urlGuestUpdate) 
+            button.btn.btn-primary#detailbuttons(type='button' style='margin-bottom: 60px;') Update Details
+
+
+
+

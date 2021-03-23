@@ -1,0 +1,51 @@
+extends layout
+
+block content
+    main.container(role='main')
+        h1=title 
+
+        form(method='POST', action='')
+            div.form-group
+                label(for='first_name') First Name:
+                input#first_name.form-control(type='text' placeholder='First Name' name='first_name' required='true' value=(undefined===session ? '' : session.first_name))
+                label(for='last_name') Last Name:
+                input#last_name.form-control(type='text' placeholder='Last Name' name='last_name' required='true' value=(undefined===session ? '' : session.last_name))
+            div.form-group
+                label(for='party_num') Number Of People: 
+                input#party_num.form-control(type='number' placeholder="2" min="1" max="90" name='party_num' required='true' value=(undefined===session ? '' : session.party_num))
+            div.form-group
+                label(for='seating') Seating Preference:
+                select#seating.form-control(type='select' placeholder='Select...' name='seating' required='false')
+                    option(value='Indoors') Indoors
+                    option(value='Patio') Patio 
+                    option(value='No Preference') No Preference
+            div.form-group
+                label(for='cell_num') Phone Number (10 digits; no other characters):
+                input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
+            div.form-group
+                label(for='cell_provider') Cell Phone Company:
+                select#cell_provider.form-control(type='select' placeholder='Select...' name='cell_provider' required)
+                    option(value='') Select...
+                    option(value='bell_canada') Bell Canada
+                    option(value='bell_mts') Bell MTS 
+                    option(value='fido_solutions') Fido Solutions 
+                    option(value='freedom_mobile') Freedom Mobile 
+                    option(value='koodo_mobile') Koodo Mobile 
+                    option(value='pc_mobile') PC Mobile 
+                    option(value='rogers_communications') Rogers Communications 
+                    option(value='sasktel') SaskTel 
+                    option(value='telus') Telus
+            div.form-group
+                label(for='email') Email: 
+                input#email.form-control(type='email' placeholder='email@gmail.com' name='email' value=(undefined===session ? '' : session.email))
+            div.form-group(style='text-align: center; margin-top:20px;')
+                button.btn.btn-primary#detailbuttons(type='submit') Submit
+        - if (session != undefined)
+            div(style='text-align: center;')
+                a(href=session.urlPosition)
+                    button.btn.btn-dark#detailbuttons Cancel
+        if errors 
+            ul 
+                for error in errors 
+                    li!= error.msg
+        br
