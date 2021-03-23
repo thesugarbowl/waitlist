@@ -32,7 +32,7 @@ block content
     br
     - if (session.has_cell)
       p(style='color:red;') #[strong Does the Guest have a Smart Phone? NOPE!]
-    br
+      br
     - if (!session.wait_end)
       p #[strong CURRENT Waitlist Position: ] #{position} (of #{waitingCount})
     p #[strong Starting Waitlist Position: ] #{session.position}

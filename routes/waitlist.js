@@ -77,4 +77,10 @@ router.get('/sessions/archive-request-waiting', session_controller.session_archi
 // // POST request to archive Waiting Sessions
 router.post('/sessions/archive-request-waiting', session_controller.session_archiveRequestWaiting_post);
 
+// // GET request to notify ALL Waiting Sessions
+router.get('/sessions/notify-all', session_controller.session_notifyAll_get);
+
+// // POST request to notify ALL Waiting Sessions
+router.post('/sessions/notify-all', session_controller.session_notifyAll_post);
+
 module.exports = router;

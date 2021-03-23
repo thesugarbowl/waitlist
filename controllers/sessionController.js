@@ -225,7 +225,7 @@ exports.session_create_post = [
             session.save(function (err) {
                 if (err) { return next(err); }
                 // Successful - redirect to new session record
-                res.redirect(session.urlPosition);
+                res.redirect(session.urlDetails);
 
                 async.parallel({
                     waitStartArray: function(callback) {
@@ -708,4 +708,25 @@ exports.session_archiveRequestWaiting_post = function(req, res, next) {
         );
     }
     
+};
+
+// Notify ALL request for Waiting Sessions on GET
+exports.session_notifyAll_get = function(req, res) {
+    res.render('notify_all_request', {title: "Notify ALL Request"})
+};
+
+// Notify ALL request for Waiting Sessions on POST
+exports.session_notifyAll_post = function(req, res, next) {
+    if (req.body.notifyAll == 'true') {
+
+        Session.updateMany({status: 'Waiting'}, {status: 'Notified', wait_end: new Date(), notify_total: 1}, {new: true},
+            function (err, results) {
+                if (err) {return next(err);}
+                else {
+                    res.redirect('/waitlist/sessions/waiting');
+                }
+            }
+        );
+        
+    }
 };
