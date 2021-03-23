@@ -50,7 +50,7 @@ app.use('/waitlist', waitlistRouter); // Add waitlist routes to middleware chain
 // Set up mongoose connection
 var mongoose = require('mongoose');
 const { response } = require('express');
-dev_db_url='mongodb+srv://patricialan:development@cluster0.vxl0f.mongodb.net/waitlist-production?retryWrites=true&w=majority'
+dev_db_url='mongodb+srv://patricialan:development@cluster0.vxl0f.mongodb.net/waitlist-development?retryWrites=true&w=majority'
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
