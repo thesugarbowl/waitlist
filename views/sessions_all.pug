@@ -28,5 +28,7 @@ block content
         each session in sessions_all 
             li
                 p #[strong #{session.status}]; #[a(href=session.urlDetails)  #{session.name}]; party of #[strong #{session.party_num}]; #{session.wait_end ? `waited ${session.wait_completed} min in total` : `waited ${session.wait_duration} min so far`}
+                  - if (session.has_cell == 'No')
+                    |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
         else 
             li There are no Sessions.

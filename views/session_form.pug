@@ -29,6 +29,7 @@ block content
             div.form-group
                 label(for='first_name') First Name:
                 input#first_name.form-control(type='text' placeholder='First Name' name='first_name' required='true' value=(undefined===session ? '' : session.first_name))
+            div.form-group
                 label(for='last_name') Last Name:
                 input#last_name.form-control(type='text' placeholder='Last Name' name='last_name' required='true' value=(undefined===session ? '' : session.last_name))
             div.form-group
@@ -40,6 +41,11 @@ block content
                     option(value='Indoors') Indoors
                     option(value='Patio') Patio 
                     option(value='No Preference') No Preference
+            div.form-group
+                label Is the Guest carrying a smart phone?
+                    input.checkbox-input(type='checkbox', name='has_cell', id='has_cell' value='No' style='margin-left: 10px; margin-right: 5px;')
+                    label(for='has_cell') No
+                p <em>If 'No', fill the fields below with 7806556817 and 'Fido Solutions' or with your own cell phone number (if you don't mind receiving spam).</em>
             div.form-group
                 label(for='cell_num') Phone Number (10 digits; no other characters):
                 input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))

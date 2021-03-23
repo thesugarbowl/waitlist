@@ -61,8 +61,7 @@ block content
         br#notify_guests
         hr
         h3 Notify Guests 
-        ol 
-            li To notify a Guest to come in: 
+        p(style='text-align:left;') To notify a Guest to come in: 
                 ul 
                     li Click on a Guest Name in 'Waiting'.
                     li Click 'Notify'.
@@ -70,7 +69,7 @@ block content
                             li The Guest will receive an SMS on their cell phone (and an email if they've provided their email address) asking them to come in. 
                             li The Guest will be transferred from 'Waiting' to 'Notified'.
                             li #[strong You may notify a Guest multiple times to come in by clicking the same 'Notify' button.] The Guest will receive the same SMS (and email) each time you do this. The '# Of Times Notified' and the time of 'First Notification' will be recorded in the Guest's Wait Session Details.
-                            li #[strong The Guest's phone number <em>is</em> provided in their Wait Session Details so you <em>can</em> phone them if, for example, they do not come to the restaurant despite the SMS (and email). If you <em>do</em> phone the Guest to ask them to come in, please ensure you've also 'notified' them on the app.]
+                            li #[strong The Guest's phone number <em>is</em> provided in their Wait Session Details so you <em>can</em> phone them if, for example, they do not come to the restaurant despite the SMS (and email). If you <em>do</em> phone the Guest to ask them to come in, please ensure you've already 'notified' them once using the app.]
         br#clean_up
         hr
         h3 Clean up (Archive) old Wait Sessions
@@ -85,20 +84,24 @@ block content
         br#create_wait
         hr
         h3 Create a Wait Session 
-        br
-        p #[strong You will need to create a Wait Session for a Guest if the Guest is not carrying a smart phone.]
         ol 
             li Click 'Create New' to create a new Wait Session for a Guest.
             li Fill out the form.
             li The Guest will receive an SMS (and email if they've provided an email address), informing them of their Position on the Waitlist (e.g. 2 of 5) and showing them the details that they provided (i.e. contact info, number of people, seating preference).
                 ul 
                     li The Guest will be added to the 'Waiting' and 'Active' lists.
+        ul 
+            li #[strong If the Guest is <em>not</em> carrying a Smart Phone:]
+                ul
+                    li #[strong The 'Create New' form has a checkbox for 'Is the Guest carrying a smart phone?']
+                    li #[strong Use 7806556817 and 'Fido Solutions' or your own phone number (if you don't mind receiving spam).]
+                    li #[strong When a table is ready, please personally fetch the Guest from outside.]
         br#update_wait
         hr
         h3 Update Wait Session Details 
         br
         p #[strong You will only need to update a Wait Session if a Guest asks you to update their details.]
-        ol 
+        ul 
             li Click the Guest's name under 'Waiting'. Click 'Update Session', fill out and submit the form (remember the cell phone company - this field does <em>not</em> automatically refill).
             ul 
                 li Your updates will be apparent in the Guest's Wait Session Details.
@@ -110,7 +113,6 @@ block content
         ul
             li #[strong Since you can 'archive' Wait Sessions, you will not need to delete a Guest's Wait Session. This functionality is included for 'just-in-case' scenarios], for example, if a guest asks you to delete their information.
             li #[strong In general, please 'archive' Wait Sessions instead of deleting since I will be collecting data to include 'Estimated Wait Time' to improve the app.]
-        ol 
             li Click the Guest's name under 'Waitlist'/'Notified'/'Archived'. Click 'Delete Session'. #[strong The Wait Session will be deleted forever.]
         br#guest_experience
         hr
@@ -134,7 +136,7 @@ block content
                                 img#image(src='/images/create_sms.png' width='325' style='margin: auto; margin-bottom: 10px;')
                                 img#image(src='/images/create_email.png' width='475' style='margin: auto;')
             li #[strong The Guest may click 'Update' on their Wait Session Details page] to update, for example, the number of people in their party, seating preference, phone number, name, or etc.
-            li When we click 'Notify':
+            li #[strong When we click 'Notify':]
                 ul 
                     li The Guest receives another #[strong SMS] (and #[strong email]) notifying them to come in to the restaurant (Figure 3).
                     li #[strong Their Wait Session Details will have updated - their 'Status' will have changed from 'Waiting' to 'Notified'. (Guests can also see the 'Number Of Times Notified' and the time of 'First Notification' on their Wait Session Details (Figure 4).)]
@@ -151,6 +153,10 @@ block content
                                     h5(style='text-align: center;') #[strong Figure 4]
                                     img#image(src='/images/guest_notified.png' height='475' style='margin-left: 10px;')
             li Guest enters the restaurant.
+        br
+        p(style='text-align: left;') #[strong If the Guest is <em>not</em> carrying a Smart Phone, see] 
+            a(href='#create_wait') 'Create a Wait Session'
+            | #[strong .]
         br
         a(href='#')
             button.btn.btn-primary Back To The Top

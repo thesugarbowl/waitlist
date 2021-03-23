@@ -27,5 +27,7 @@ block content
             li 
                 a(href=session.urlDetails) #{session.name}
                 | ; party of #[strong #{session.party_num}]; started waiting at #[strong #{session.waitStart_localTime}]
+                - if (session.has_cell == 'No')
+                  |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
         else 
             li There are no 'Archived' Sessions.

@@ -28,6 +28,8 @@ block content
             li 
                 a(href=session.urlDetails) #{session.name}
                 | ; party of #[strong #{session.party_num}]; waited #[strong #{session.wait_duration} min] so far
+                - if (session.has_cell == 'No')
+                  |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
         else 
             li There are no 'Waiting' Sessions.
     br

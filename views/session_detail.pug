@@ -30,6 +30,9 @@ block content
 
     h4 #[strong Status: ] #{session.status}
     br
+    - if (session.has_cell)
+      p(style='color:red;') #[strong Does the Guest have a Smart Phone? NOPE!]
+    br
     - if (!session.wait_end)
       p #[strong CURRENT Waitlist Position: ] #{position} (of #{waitingCount})
     p #[strong Starting Waitlist Position: ] #{session.position}

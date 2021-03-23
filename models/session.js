@@ -11,6 +11,9 @@ var SessionSchema = new Schema(
             type: String,
             default: 'No Preference'
         },
+        has_cell: {
+            type: String
+        },
         cell_num: {
             type: String,
             required: [true, 'Phone number required']

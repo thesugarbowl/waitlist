@@ -192,6 +192,7 @@ exports.session_create_post = [
         .withMessage('Last name has non-alphanumeric characters.'),
     body('party_num', 'Number of people required').trim().escape(),
     body('seating').escape(),
+    body('has_cell').escape(),
     body('cell_num', 'Phone number required').trim().escape(),
     body('cell_provider', 'Wireless provider required').escape(),
     body('email', 'Invalid email address!').optional({ checkFalsy: true }).isEmail(),
@@ -216,6 +217,7 @@ exports.session_create_post = [
                     last_name: req.body.last_name,
                     party_num: req.body.party_num,
                     seating: req.body.seating,
+                    has_cell: req.body.has_cell,
                     cell_num: req.body.cell_num,
                     cell_provider: req.body.cell_provider,
                     email: req.body.email
