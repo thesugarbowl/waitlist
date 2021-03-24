@@ -117,8 +117,8 @@ exports.session_list_archived = function(req, res, next) {
         },
         sessions_archived: function(callback) {
             var d = new Date();
-            var midnight = d.setHours(0,0,0);
-            Session.find({ status: 'Archived' , createdAt: { $gt: midnight }})
+            var time6am = d.setHours(0,0,0);
+            Session.find({ status: 'Archived' , createdAt: { $gt: time6am }})
                 .sort([['createdAt', -1], ['first_name']])
                 .exec(callback)
         },

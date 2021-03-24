@@ -49,14 +49,16 @@ SessionSchema
 SessionSchema
 .virtual('waitStart_localTime')
 .get(function() {
-    return this.createdAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    var sixhour_adjust_start = new Date(this.createdAt.getTime() - 21600000).toTimeString().substring(0,5);
+    return `${sixhour_adjust_start} (24H)`
 });
 
 // Virtual for customer's local wait end time
 SessionSchema
 .virtual('waitEnd_localTime')
 .get(function() {
-    return this.wait_end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    var sixhour_adjust_end = new Date(this.wait_end.getTime() - 21600000).toTimeString().substring(0,5);
+    return `${sixhour_adjust_end} (24H)`
 });
 
 // Virtual for customer's wait_duration
