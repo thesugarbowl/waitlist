@@ -57,7 +57,7 @@ exports.session_list_all = function(req, res, next) {
         },
         sessions_all: function(callback) {
             Session.find().where('status').ne('Archived')
-                .sort([['createdAt', -1], ['first_name', 1]])
+                .sort([['createdAt', 1]])
                 .exec(callback)
         },
     }, function(err, results) {

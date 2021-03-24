@@ -23,11 +23,12 @@ block content
     ul
         li #[strong Waiting: ] #{sessions_waitCount}
         li #[strong Notified: ] #{sessions_notifiedCount}
-    p <em>Ordered by (1) wait time (top = longest wait), then (2) first name.</em>
+    p <em>Ordered by 'when' a Guest started waiting (top = started waiting the 'longest' time ago).</em>
+    p <em>Thus, ideally the entries at the top should have the status 'Notified'.</em>
     ol
         each session in sessions_all 
             li
-                p #[strong #{session.status}]; #[a(href=session.urlDetails)  #{session.name}]; party of #[strong #{session.party_num}]; #{session.wait_end ? `waited ${session.wait_completed} min in total` : `waited ${session.wait_duration} min so far`}
+                p #[strong #{session.status}]; #[a(href=session.urlDetails)  #{session.name}]; party of #[strong #{session.party_num}]; #{session.wait_end ? `waited ${session.wait_completed} min until notified` : `waited ${session.wait_duration} min so far`}
                   - if (session.has_cell == 'No')
                     |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
         else 
