@@ -40,7 +40,7 @@ block content
                     option(value='sasktel') SaskTel 
                     option(value='telus') Telus
             div.form-group
-                label(for='email') #[strong Email] (Optional)
+                label(for='email') #[strong Email]
                 input#email.form-control(type='email' placeholder='email@gmail.com' name='email' value=(undefined===session ? '' : session.email))
             div.form-group(style='text-align: center; margin-top:20px;')
                 button.btn.btn-primary#detailbuttons(type='submit') Submit
