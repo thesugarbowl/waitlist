@@ -6,25 +6,28 @@ block content
 
         form(method='POST', action='')
             div.form-group
-                label(for='first_name') First Name:
+                label #[strong * means Required]
+            div.form-group
+                label(for='first_name') #[strong First Name*]
                 input#first_name.form-control(type='text' placeholder='First Name' name='first_name' required='true' value=(undefined===session ? '' : session.first_name))
             div.form-group
-                label(for='last_name') Last Name:
+                label(for='last_name') #[strong Last Name*]
                 input#last_name.form-control(type='text' placeholder='Last Name' name='last_name' required='true' value=(undefined===session ? '' : session.last_name))
             div.form-group
-                label(for='party_num') Number Of People: 
+                label(for='party_num') #[strong Number Of People*]
                 input#party_num.form-control(type='number' placeholder="2" min="1" max="90" name='party_num' required='true' value=(undefined===session ? '' : session.party_num))
             div.form-group
-                label(for='seating') Seating Preference:
+                label(for='seating') #[strong Seating Preference]
                 select#seating.form-control(type='select' placeholder='Select...' name='seating' required='false')
                     option(value='Indoors') Indoors
                     option(value='Patio') Patio 
                     option(value='No Preference') No Preference
             div.form-group
-                label(for='cell_num') Phone Number (10 digits; no other characters):
+                label(for='cell_num') #[strong Phone Number*] (10 digits; no other characters)
+                p If you have not <em>opted in to 'Email to SMS'</em> with your Cell Phone Company, you will still receive our notifications but won't be able to read them (and won't know that <em>we</em> sent them). In this case, please <em>also</em> provide (and check) your email. 
                 input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
             div.form-group
-                label(for='cell_provider') Cell Phone Company:
+                label(for='cell_provider') #[strong Cell Phone Company*]
                 select#cell_provider.form-control(type='select' placeholder='Select...' name='cell_provider' required)
                     option(value='') Select...
                     option(value='bell_canada') Bell Canada
@@ -37,7 +40,7 @@ block content
                     option(value='sasktel') SaskTel 
                     option(value='telus') Telus
             div.form-group
-                label(for='email') Email: 
+                label(for='email') #[strong Email] (Optional)
                 input#email.form-control(type='email' placeholder='email@gmail.com' name='email' value=(undefined===session ? '' : session.email))
             div.form-group(style='text-align: center; margin-top:20px;')
                 button.btn.btn-primary#detailbuttons(type='submit') Submit
