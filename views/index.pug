@@ -8,7 +8,7 @@ block content
             #main-navbar.collapse.navbar-collapse
                 ul.navbar-nav.mr-auto(style='margin-left: 10px;')
                     li.nav-item.active
-                        a.nav-link(href='/waitlist') Home
+                        a.nav-link(href='/waitlist') Home/FAQ
                     li.nav-item
                         a.nav-link(href='/waitlist/sessions') Active
                     li.nav-item
@@ -23,7 +23,10 @@ block content
         br
         p.lead Welcome to our Waitlist App!
         p Hopefully, the app is intuitive and you don't <em>have to</em> read the entire FAQ
-        p but #[strong please pay special attention to statements in 'bold' font.]
+        p but #[strong please pay attention to statements in 'bold' font.]
+        p Alternatively, 
+            a(href='https://youtu.be/FRraR8KNh-0', target='_blank') click here 
+            | #[strong to watch a demo of the app on Youtube.]
         br
         h2 FAQ
         ol 
@@ -61,7 +64,8 @@ block content
         br#notify_guests
         hr
         h3 Notify Guests 
-        p(style='text-align:left;') To notify a Guest to come in: 
+        ul
+            li To notify a Guest to come in: 
                 ul 
                     li Click on a Guest Name in 'Waiting'.
                     li Click 'Notify'.
@@ -70,6 +74,10 @@ block content
                             li The Guest will be transferred from 'Waiting' to 'Notified'.
                             li #[strong You may notify a Guest multiple times to come in by clicking the same 'Notify' button.] The Guest will receive the same SMS (and email) each time you do this. The '# Of Times Notified' and the time of 'First Notification' will be recorded in the Guest's Wait Session Details.
                             li #[strong The Guest's phone number <em>is</em> provided in their Wait Session Details so you <em>can</em> phone them if, for example, they do not come to the restaurant despite the SMS (and email). If you <em>do</em> phone the Guest to ask them to come in, please ensure you've already 'notified' them once using the app.]
+        ul 
+            li To notify <em>all</em> Waiting Guests to come in: 
+                ul 
+                    li Click 'Waiting', then 'Notify All'. You'll be directed to a confirmation page asking you if you really want to do this. 
         br#clean_up
         hr
         h3 Clean up (Archive) old Wait Sessions
