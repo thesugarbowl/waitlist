@@ -15,7 +15,7 @@ block content
                 input#last_name.form-control(type='text' placeholder='Last Name' name='last_name' required='true' value=(undefined===session ? '' : session.last_name))
             div.form-group
                 label(for='party_num') #[strong Number Of People*]
-                input#party_num.form-control(type='number' placeholder="2" min="1" max="90" name='party_num' required='true' value=(undefined===session ? '' : session.party_num))
+                input#party_num.form-control(type='number' placeholder="e.g. 2" min="1" max="90" name='party_num' required='true' value=(undefined===session ? '' : session.party_num))
             div.form-group
                 label(for='seating') #[strong Seating Preference]
                 select#seating.form-control(type='select' placeholder='Select...' name='seating' required='false')
