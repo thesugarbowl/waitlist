@@ -18,12 +18,6 @@ var SessionSchema = new Schema(
             type: String,
             required: [true, 'Phone number required']
         },
-        cell_provider: {
-            type: String,
-            enum: ['bell_canada', 'bell_mts', 'fido_solutions', 'freedom_mobile', 'koodo_mobile', 'pc_mobile','rogers_communications','sasktel','telus'],
-            required: [true, 'Mobile provider required']
-        },
-        email: {type: String},
         status: {
             type: String,
             required: true,

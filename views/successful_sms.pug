@@ -27,8 +27,8 @@ block content
         br
         hr
         h3 Submission Receipt 
-        p #[strong Text Delivered To: ] #{response.accepted[0]}
-        p #[strong MessageId: ] #{response.messageId}
+        p #[strong Text Delivered To: ] +1#{results.cell_num}
+        p #[strong MessageId: ] #{response}
         br
         a(href=results.urlDetails) 
             button.btn.btn-primary(type='button') Updated Session Details

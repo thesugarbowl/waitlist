@@ -3,35 +3,17 @@ var async = require('async');
 const {body,validationResult} = require('express-validator');
 require('dotenv').config();
 
-// Email & SMS requirements
-const nodemailer = require('nodemailer');
-const { google } = require('googleapis');
-const { get } = require('../routes');
 
-const OAuth2 = google.auth.OAuth2;
+// Amazon SNS
+// Import required AWS SDK clients and commands for Node.js
+const { SNSClient, PublishCommand } = require("@aws-sdk/client-sns");
 
-const oauth2Client = new OAuth2(
-    '724968912542-0ardha27iqoqfmsa4jg5eraqh06afe0m.apps.googleusercontent.com', // Client ID
-    process.env.CLIENT_SECRET, // Client Secret
-    'https://developers.google.com/oauthplayground' // Redirect URL
-);
+// Set the AWS Region
+const REGION = "ca-central-1";
 
-oauth2Client.setCredentials({
-    refresh_token: process.env.REFRESH_TOKEN
-});
-const accessToken = oauth2Client.getAccessToken()
+// Create SNS service object
+const sns = new SNSClient({ region: REGION });
 
-const smtpTransport = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        type: 'OAuth2',
-        user: 'thesugarbowledmonton@gmail.com',
-        clientId: '724968912542-0ardha27iqoqfmsa4jg5eraqh06afe0m.apps.googleusercontent.com',
-        clientSecret: 'Q0vi8uFrrpoyonCa1JVTDQ_t',
-        refreshToken: '1//04oOgDv91rrBoCgYIARAAGAQSNwF-L9Ir6hPEXJPCN2dy8wh1SExBToNcbW6gXbq-NrOCM8VlTS4Hwn1ZAw0KTpfBO2laep7STG4',
-        accessToken: accessToken
-    }
-});
 
 // Display dummy home
 exports.dummyHome = function(req, res) {
@@ -194,8 +176,6 @@ exports.session_create_post = [
     body('seating').escape(),
     body('has_cell').escape(),
     body('cell_num', 'Phone number required').trim().escape(),
-    body('cell_provider', 'Wireless provider required').escape(),
-    body('email', 'Invalid email address!').optional({ checkFalsy: true }).isEmail(),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -218,9 +198,7 @@ exports.session_create_post = [
                     party_num: req.body.party_num,
                     seating: req.body.seating,
                     has_cell: req.body.has_cell,
-                    cell_num: req.body.cell_num,
-                    cell_provider: req.body.cell_provider,
-                    email: req.body.email
+                    cell_num: req.body.cell_num
                 });
             session.save(function (err) {
                 if (err) { return next(err); }
@@ -254,47 +232,22 @@ exports.session_create_post = [
                     // Send Guest SMS & Email
                     var name = session.first_name;
                     var cell_num = session.cell_num;
-                    var cell_provider = session.cell_provider.toString();
-            
-                    var cell_dict = {
-                        bell_canada : 'txt.bell.ca',
-                        bell_mts : 'text.mts.net',
-                        fido_solutions : 'fido.ca',
-                        freedom_mobile : 'txt.freedommobile.ca',
-                        koodoo_mobile : 'msg.telus.com',
-                        pc_mobile : 'mobiletxt.ca',
-                        rogers_communications : 'pcs.rogers.com',
-                        sasktel : 'sms.sasktel.com',
-                        telus : 'msg.telus.com'
-                    };
-            
-                    if (session.email) {
-                        var mailOptions_email = {
-                            from: 'thesugarbowledmonton@gmail.ca',
-                            to: session.email,
-                            subject: 'Sugarbowl Waitlist',
-                            text: `Hi ${name}! You are ${i} of ${waitingCount} in line. When we're ready, we'll text and email you to come in. Thank you!`
-                        };
-                        // Email
-                        smtpTransport.sendMail(mailOptions_email, (error, response) => {
-                            error ? console.log(error) : console.log(response);
-                            smtpTransport.close();
-                        });
-                    }; 
-            
-                    var mailOptions_sms = {
-                        from: 'thesugarbowledmonton@gmail.ca',
-                        to: cell_num + '@' + cell_dict[cell_provider],
-                        subject: 'Sugarbowl Waitlist',
-                        text: `: Hi ${name}! You are ${i} of ${waitingCount} in line. We will text you again to come in!`
-                    };
-                    // console.log(cell_num + '@' + cell_dict[cell_provider]);
 
-                    // SMS
-                    smtpTransport.sendMail(mailOptions_sms, (error) => {
-                        if (error) { return next(error); }
-                        else {smtpTransport.close();}
-                    });
+                    // Set the parameters
+                    const params = {
+                        Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
+                        PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
+                    };
+
+                    const run = async () => {
+                        try {
+                          const data = await sns.send(new PublishCommand(params));
+                        //   console.log("Success, message published. MessageID is " + data.MessageId);
+                        } catch (err) {
+                          console.error(err, err.stack);
+                        }
+                    };
+                    run();
                 });
             });
         }
@@ -316,8 +269,6 @@ exports.session_create_post_guest = [
     body('party_num', 'Number of people required').trim().escape(),
     body('seating').escape(),
     body('cell_num', 'Phone number required').trim().escape(),
-    body('cell_provider', 'Wireless provider required').escape(),
-    body('email', 'Invalid email address!').optional({ checkFalsy: true }).isEmail(),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -339,9 +290,7 @@ exports.session_create_post_guest = [
                     last_name: req.body.last_name,
                     party_num: req.body.party_num,
                     seating: req.body.seating,
-                    cell_num: req.body.cell_num,
-                    cell_provider: req.body.cell_provider,
-                    email: req.body.email
+                    cell_num: req.body.cell_num
                 });
             session.save(function (err) {
                 if (err) { return next(err); }
@@ -375,47 +324,22 @@ exports.session_create_post_guest = [
                     // Send Guest SMS & Email
                     var name = session.first_name;
                     var cell_num = session.cell_num;
-                    var cell_provider = session.cell_provider.toString();
-            
-                    var cell_dict = {
-                        bell_canada : 'txt.bell.ca',
-                        bell_mts : 'text.mts.net',
-                        fido_solutions : 'fido.ca',
-                        freedom_mobile : 'txt.freedommobile.ca',
-                        koodoo_mobile : 'msg.telus.com',
-                        pc_mobile : 'mobiletxt.ca',
-                        rogers_communications : 'pcs.rogers.com',
-                        sasktel : 'sms.sasktel.com',
-                        telus : 'msg.telus.com'
+  
+                    // Set the parameters
+                    const params = {
+                        Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
+                        PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
                     };
-            
-                    if (session.email) {
-                        var mailOptions_email = {
-                            from: 'thesugarbowledmonton@gmail.ca',
-                            to: session.email,
-                            subject: 'Sugarbowl Waitlist',
-                            text: `Hi ${name}! You are ${i} of ${waitingCount} in line. When we're ready, we'll text and email you to come in. Thank you!`
-                        };
-                        // Email
-                        smtpTransport.sendMail(mailOptions_email, (error, response) => {
-                            error ? console.log(error) : console.log(response);
-                            smtpTransport.close();
-                        });
-                    }; 
-            
-                    var mailOptions_sms = {
-                        from: 'thesugarbowledmonton@gmail.ca',
-                        to: cell_num + '@' + cell_dict[cell_provider],
-                        subject: 'Sugarbowl Waitlist',
-                        text: ` Hi ${name}! You are ${i} of ${waitingCount} in line. We will text you again to come in!`
-                    };
-                    // console.log(cell_num + '@' + cell_dict[cell_provider]);
 
-                    // SMS
-                    smtpTransport.sendMail(mailOptions_sms, (error) => {
-                        if (error) { return next(error); }
-                        else {smtpTransport.close();}
-                    });
+                    const run = async () => {
+                        try {
+                            const data = await sns.send(new PublishCommand(params));
+                            // console.log("Success, message published. MessageID is " + data.MessageId);
+                        } catch (err) {
+                            console.error(err, err.stack);
+                        }
+                    };
+                    run();
                 });
             });
         }
@@ -470,8 +394,6 @@ exports.session_update_post = [
     body('party_num', 'Number of people required').trim().escape(),
     body('seating').escape(),
     body('cell_num', 'Phone number required').trim().escape(),
-    body('cell_provider', 'Wireless provider required').escape(),
-    body('email', 'Invalid email address!').optional({ checkFalsy: true }).isEmail(),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -487,9 +409,7 @@ exports.session_update_post = [
                 party_num: req.body.party_num,
                 seating: req.body.seating,
                 cell_num: req.body.cell_num,
-                cell_provider: req.body.cell_provider,
-                email: req.body.email,
-                _id: req.params.id, // This is required, or a new ID will be assigned!
+                _id: req.params.id // This is required, or a new ID will be assigned!
             }
         );
         
@@ -532,8 +452,6 @@ exports.session_update_post_guest = [
     body('party_num', 'Number of people required').trim().escape(),
     body('seating').escape(),
     body('cell_num', 'Phone number required').trim().escape(),
-    body('cell_provider', 'Wireless provider required').escape(),
-    body('email', 'Invalid email address!').optional({ checkFalsy: true }).isEmail(),
 
     // Process request after validation and sanitization
     (req, res, next) => {
@@ -549,9 +467,7 @@ exports.session_update_post_guest = [
                 party_num: req.body.party_num,
                 seating: req.body.seating,
                 cell_num: req.body.cell_num,
-                cell_provider: req.body.cell_provider,
-                email: req.body.email,
-                _id: req.params.id, // This is required, or a new ID will be assigned!
+                _id: req.params.id // This is required, or a new ID will be assigned!
             }
         );
         
@@ -599,45 +515,17 @@ exports.session_notify_post = function(req, res, next) {
         // Success - send guest SMS and Email
         var name = session.first_name;
         var cell_num = session.cell_num;
-        var cell_provider = session.cell_provider.toString();
- 
-        var cell_dict = {
-            bell_canada : 'txt.bell.ca',
-            bell_mts : 'text.mts.net',
-            fido_solutions : 'fido.ca',
-            freedom_mobile : 'txt.freedommobile.ca',
-            koodoo_mobile : 'msg.telus.com',
-            pc_mobile : 'mobiletxt.ca',
-            rogers_communications : 'pcs.rogers.com',
-            sasktel : 'sms.sasktel.com',
-            telus : 'msg.telus.com'
+
+        // Set the parameters
+        const params = {
+            Message: ` Hi ${name}! We have a table for you! Please come in.` /* required */,
+            PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
         };
 
-        if (session.email) {
-            var mailOptions_email = {
-                from: 'thesugarbowledmonton@gmail.ca',
-                to: session.email,
-                subject: 'Sugarbowl Waitlist',
-                text: `Hi ${name}! We have a table for you! Please come in.`
-            };
-            // Email
-            smtpTransport.sendMail(mailOptions_email, (error, response) => {
-                error ? console.log(error) : console.log(response);
-                smtpTransport.close();
-            });
-        }; 
+        const run = async () => {
+            try {
+                const data = await sns.send(new PublishCommand(params));
 
-        var mailOptions_sms = {
-            from: 'thesugarbowledmonton@gmail.ca',
-            to: cell_num + '@' + cell_dict[cell_provider],
-            subject: 'Sugarbowl Waitlist',
-            text: ` Hi ${name}! We have a table for you! Please come in.`
-        };
-
-        // SMS
-        smtpTransport.sendMail(mailOptions_sms, (error, response) => {
-            if (error) { return next(error); }
-            else {
                 // Update the record
                 var notify_total = session.notify_total;
                 // console.log(notify_total);
@@ -650,18 +538,20 @@ exports.session_notify_post = function(req, res, next) {
                     function (err, results) {
                         if (err) { return next(err); }
                         else {
-                            res.render('successful_sms.pug', {title: 'Notification Confirmation', response: response, results:results});
+                            res.render('successful_sms.pug', {title: 'Notification Confirmation', response: data.MessageId, results:results});
                            
                             // console.log(`Session for ${results.name} was updated:`);
                             // console.log(`status: ${results.status}`);
                             // console.log(`wait_end: ${results.wait_end}`);
-
-                            smtpTransport.close();
                         }
                     }
                 );
-            }  
-        });
+                // console.log("Success, message published. MessageID is " + data.MessageId);
+            } catch (err) {
+                console.error(err, err.stack);
+            }
+        };
+        run();
 
     });
 };

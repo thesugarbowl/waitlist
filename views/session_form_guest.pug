@@ -24,24 +24,7 @@ block content
                     option(value='No Preference') No Preference
             div.form-group
                 label(for='cell_num') #[strong Phone Number*] (10 digits; no other characters)
-                p If you have not <em>opted in to 'Email to SMS'</em> with your Cell Phone Company, you will still receive our notifications but won't be able to read them (and won't know that <em>we</em> sent them). In this case, please <em>also</em> provide (and check) your email. 
                 input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
-            div.form-group
-                label(for='cell_provider') #[strong Cell Phone Company*]
-                select#cell_provider.form-control(type='select' placeholder='Select...' name='cell_provider' required)
-                    option(value='') Select...
-                    option(value='bell_canada') Bell Canada
-                    option(value='bell_mts') Bell MTS 
-                    option(value='fido_solutions') Fido Solutions 
-                    option(value='freedom_mobile') Freedom Mobile 
-                    option(value='koodo_mobile') Koodo Mobile 
-                    option(value='pc_mobile') PC Mobile 
-                    option(value='rogers_communications') Rogers Communications 
-                    option(value='sasktel') SaskTel 
-                    option(value='telus') Telus
-            div.form-group
-                label(for='email') #[strong Email]
-                input#email.form-control(type='email' placeholder='email@gmail.com' name='email' value=(undefined===session ? '' : session.email))
             div.form-group(style='text-align: center; margin-top:20px;')
                 button.btn.btn-primary#detailbuttons(type='submit') Submit
         - if (session != undefined)

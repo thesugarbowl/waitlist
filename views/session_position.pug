@@ -26,7 +26,7 @@ block content
     h5 #[strong Your Details:]
     br 
     - if (session.status == ('Notified'))
-        p #[strong # Of Times Notified ](text +/- email): #{session.notify_total}
+        p #[strong # Of Times Notified] (by SMS): #{session.notify_total}
         p #[strong First Notification: ] #{session.waitEnd_localTime}
     - else if (session.status == ('Archived'))
         p #[strong # Of Times Notified ](text +/- email): #{session.notify_total}
@@ -34,9 +34,7 @@ block content
     p #[strong Starting Waitlist Position: ] #{session.position}
     p #[strong Number Of People: ] #{session.party_num}
     p #[strong Seating Preference: ] #{session.seating}
-    p #[strong Cell Number: ] #{session.cell_num}
-    p #[strong Wireless Provider: ] #{session.cell_provider}
-    p #[strong Email: ] #{session.email}
+    p #[strong Cell Number: ] +1#{session.cell_num}
     br
     - if (session.status == 'Waiting')
         a(href=session.urlPosition) 
