@@ -22,6 +22,10 @@ block content
         h4 Come on in!
     - else if (session.status == 'Archived')
         p.lead You have been removed from the waitlist.
+    br
+    - if (session.status == 'Waiting')
+        p If you are #1-to-3 in line, you may be waiting up to 15-20 min. 
+        p If you are further back in line, please expect to wait longer. 
     hr
     h5 #[strong Your Details:]
     br 
