@@ -53,6 +53,9 @@ router.get('/session/:id', session_controller.session_detail);
 // GET request for one Session's position-in-line
 router.get('/guest/:id/position', session_controller.session_position);
 
+// POST request to confirm Session
+router.post('/guest/:id/position', session_controller.session_confirm_post);
+
 // GET request for list of 'all' Sessions
 router.get('/sessions', session_controller.session_list_all); 
 
@@ -62,8 +65,17 @@ router.get('/sessions/waiting', session_controller.session_list_waiting);
 // GET request for list of 'notified' Sessions
 router.get('/sessions/notified', session_controller.session_list_notified); 
 
+// GET request for list of 'confirmed' Sessions
+router.get('/sessions/confirmed', session_controller.session_list_confirmed); 
+
 // GET request to list of 'Archived' Sessions
 router.get('/sessions/archived', session_controller.session_list_archived);
+
+// GET request to archive Confirmed Sessions
+router.get('/sessions/archive-request-confirmed', session_controller.session_archiveRequestConfirmed_get);
+
+// POST request to archive Confirmed Sessions
+router.post('/sessions/archive-request-confirmed', session_controller.session_archiveRequestConfirmed_post);
 
 // GET request to archive Notified Sessions
 router.get('/sessions/archive-request-notified', session_controller.session_archiveRequest_get);
@@ -71,16 +83,16 @@ router.get('/sessions/archive-request-notified', session_controller.session_arch
 // POST request to archive Notified Sessions
 router.post('/sessions/archive-request-notified', session_controller.session_archiveRequest_post);
 
-// // GET request to archive Waiting Sessions
+// GET request to archive Waiting Sessions
 router.get('/sessions/archive-request-waiting', session_controller.session_archiveRequestWaiting_get);
 
-// // POST request to archive Waiting Sessions
+// POST request to archive Waiting Sessions
 router.post('/sessions/archive-request-waiting', session_controller.session_archiveRequestWaiting_post);
 
-// // GET request to notify ALL Waiting Sessions
+// GET request to notify ALL Waiting Sessions
 router.get('/sessions/notify-all', session_controller.session_notifyAll_get);
 
-// // POST request to notify ALL Waiting Sessions
+// POST request to notify ALL Waiting Sessions
 router.post('/sessions/notify-all', session_controller.session_notifyAll_post);
 
 module.exports = router;

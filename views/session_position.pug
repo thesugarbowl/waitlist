@@ -15,11 +15,14 @@ block content
                 - var position = i + 1
     
     - if (session.status == 'Waiting')
-        h4 #[strong Status: ] Waiting
-        p You are number #[h2 #{position}] (of #{waitingCount}) in line.
+        h4(style='color:blue;') #[strong Status: Waiting] 
+        p You are number #[h2(style='color:blue;') #{position}] (of #{waitingCount}) in line.
     - else if (session.status == 'Notified')
-        h3 #[strong Status: Notified]
+        h3(style='color:green;') #[strong Status: Notified]
         h4 Come on in!
+    - else if (session.status == 'Confirmed')
+        h3(style='color:#e60000;') #[strong Status: Confirmed]
+        h4 See you soon!
     - else if (session.status == 'Archived')
         p.lead You have been removed from the waitlist.
     br
@@ -28,6 +31,12 @@ block content
             li(style='margin-left:20px; margin-right:20px;') If you are #1-to-3 in line, you may be waiting up to 10-25 min. 
             li(style='margin-left:20px; margin-right:20px;') If you are further back, you may be waiting 30 min or more. 
             li(style='margin-left:20px; margin-right:20px;') #[strong When you are #1 in line, please be ready to come in.]
+    - else if (session.status == 'Notified')
+        p.lead To confirm you are on your way
+        form(method='POST' action='')
+            div.form-group(style='text-align: center;')
+                input#archiveSessions.form-control(type='hidden', name='confirmSession', required='true', value='true')
+                button.btn.btn-success#detailbuttons(type='submit') Click Here
     hr
     h5 #[strong Your Details:]
     br 

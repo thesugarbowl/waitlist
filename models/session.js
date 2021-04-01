@@ -21,7 +21,7 @@ var SessionSchema = new Schema(
         status: {
             type: String,
             required: true,
-            enum: ['Waiting', 'Notified', 'Archived'],
+            enum: ['Waiting', 'Notified', 'Confirmed', 'Archived'],
             default: 'Waiting'
         },
         position: {type: Number, min: 1},

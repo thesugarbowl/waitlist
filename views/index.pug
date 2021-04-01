@@ -16,6 +16,8 @@ block content
                     li.nav-item
                         a.nav-link(href='/waitlist/sessions/notified') Notified
                     li.nav-item
+                        a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
+                    li.nav-item
                         a.nav-link(href='/waitlist/sessions/archived') Archived
                     li.nav-item
                         a.nav-link(href='/waitlist/session/create') Create New
@@ -53,10 +55,11 @@ block content
                 li 'Active' contains 'Waiting' and 'Notified' Guests.
                 li 'Waiting' contains Guests you haven't notified to come in yet.
                 li 'Notified' contains Guests you <em>have</em> notified to come in.
+                li 'Confirmed' contains Guests you <em>have</em> notified AND who have confirmed that they are coming in.
                 li 'Archived' contains Guests who have been:
                     br
                     ul 
-                        li Notified to come in 1 Hour ago.
+                        li Notified to come in More Than 1 Hour ago.
                         li Waiting for More Than 2 Hours.
             li Click any Guest Name in 'Active'/'Waiting'/'Notified' to view the Guest's Wait Session Details. 
             ul
@@ -82,13 +85,13 @@ block content
         hr
         h3 Clean up (Archive) old Wait Sessions
         ul 
-            li Click 'Waiting'/'Notified' and then 'Archive Old Sessions' to remove old Wait Sessions from the 'Waiting'/'Notified' lists.
+            li Click 'Waiting'/'Notified'/'Confirmed' and then 'Archive Old Sessions' to remove old Wait Sessions from the 'Waiting'/'Notified'/'Confirmed' lists.
             ul 
-                li This removes Guests from the lists who have been (1) waiting for more than 2 hours <em>or</em> (2) notified more than 1 hour ago, respectively. 
-                li Guests will be transferred from 'Waiting'/'Notified' to 'Archived'.
+                li This removes Guests from the lists who have been (1) waiting for more than 2 hours <em>or</em> (2) notified more than 1 hour ago. 
+                li Guests will be transferred from 'Waiting'/'Notified'/'Confirmed' to 'Archived'.
                 li #[strong 'Archived' only shows Guests who started their wait after 6AM today AND were archived].
                 li You can still view a Guest's Wait Session Details after they've been archived by clicking the Guest Name. 
-                li #[strong You cannot 'un-archive' a guest to transfer them back to 'Waiting'/'Notified' lists.]
+                li #[strong You cannot 'un-archive' a guest to transfer them back to 'Waiting'/'Notified'/'Confirmed' lists.]
         br#create_wait
         hr
         h3 Create a Wait Session 
@@ -96,8 +99,8 @@ block content
             li Click 'Create New' to create a new Wait Session for a Guest.
             li Fill out the form.
             li The Guest will receive an SMS, informing them of their Position on the Waitlist (e.g. 2 of 5) and showing them the details that they provided (i.e. contact info, number of people, seating preference).
-                ul 
-                    li The Guest will be added to the 'Waiting' and 'Active' lists.
+            ul 
+                li The Guest will be added to the 'Waiting' and 'Active' lists.
         ul 
             li #[strong If the Guest is <em>not</em> carrying a Smart Phone:]
                 ul
@@ -121,7 +124,7 @@ block content
         ul
             li #[strong Since you can 'archive' Wait Sessions, you will not need to delete a Guest's Wait Session. This functionality is included for 'just-in-case' scenarios], for example, if a guest asks you to delete their information.
             li #[strong In general, please 'archive' Wait Sessions instead of deleting since I will be collecting data to include 'Estimated Wait Time' to improve the app.]
-            li Click the Guest's name under 'Waitlist'/'Notified'/'Archived'. Click 'Delete Session'. #[strong The Wait Session will be deleted forever.]
+            li Click the Guest's name under 'Waitlist'/'Notified'/'Confirmed'/'Archived'. Click 'Delete Session'. #[strong The Wait Session will be deleted forever.]
         br#guest_experience
         hr
         h3 The Guest's Waitlist Experience
@@ -138,11 +141,10 @@ block content
                         tr
                             td
                                 h5(style='text-align: center;') #[strong Figure 1]
-                                img#image(src='/images/guest_waitSessionDetails.png' height='475' style='margin-right: 10px;')
+                                img#image(src='/images/guest_waitSessionDetails.png' height='525' style='margin-right: 10px;')
                             td
                                 h5(style='text-align: center;') #[strong Figure 2]
-                                img#image(src='/images/create_sms.png' width='325' style='margin: auto; margin-bottom: 10px;')
-                                img#image(src='/images/create_email.png' width='475' style='margin: auto;')
+                                img#image(src='/images/create_sms.png' width='375' style='margin: auto; margin-bottom: 10px;')
             li #[strong The Guest may click 'Update' on their Wait Session Details page] to update, for example, the number of people in their party, seating preference, phone number, name, or etc.
             li #[strong When we click 'Notify':]
                 ul 
@@ -155,11 +157,11 @@ block content
                             tr
                                 td
                                     h5(style='text-align: center;') #[strong Figure 3]
-                                    img#image(src='/images/notify_sms.png' width='325' style='margin: auto; margin-bottom: 10px;')
-                                    img#image(src='/images/notify_email.png' width='475' style='margin: auto;')
+                                    img#image(src='/images/notify_sms.png' width='375' style='margin: auto; margin-bottom: 10px;')
                                 td
                                     h5(style='text-align: center;') #[strong Figure 4]
-                                    img#image(src='/images/guest_notified.png' height='475' style='margin-left: 10px;')
+                                    img#image(src='/images/guest_notified.png' height='525' style='margin-left: 10px;')
+            li #[strong The Guest can click a button on their Wait Session Details to confirm that they are coming in]. When they do this, #[strong their status changes from "Notified" to "Confirmed".]
             li Guest enters the restaurant.
         br
         p(style='text-align: left;') #[strong If the Guest is <em>not</em> carrying a Smart Phone, see] 

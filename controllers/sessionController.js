@@ -37,6 +37,10 @@ exports.session_list_all = function(req, res, next) {
             Session.countDocuments({ status: 'Notified'})
                 .exec(callback)
         },
+        sessions_confirmedCount: function(callback) {
+            Session.countDocuments({ status: 'Confirmed'})
+                .exec(callback)
+        },
         sessions_all: function(callback) {
             Session.find().where('status').ne('Archived')
                 .sort([['createdAt', 1]])
@@ -45,7 +49,7 @@ exports.session_list_all = function(req, res, next) {
     }, function(err, results) {
         if (err) { return next(err); } // Error in API usage
         // Success, so render
-        res.render('sessions_all', {title: 'Active Sessions', sessions_waitCount: results.sessions_waitCount, sessions_notifiedCount: results.sessions_notifiedCount, sessions_all: results.sessions_all});
+        res.render('sessions_all', {title: 'Active Sessions', sessions_waitCount: results.sessions_waitCount, sessions_notifiedCount: results.sessions_notifiedCount, sessions_confirmedCount: results.sessions_confirmedCount, sessions_all: results.sessions_all});
     });
 };
 
@@ -86,6 +90,26 @@ exports.session_list_notified = function(req, res, next) {
         if (err) { return next(err); } // Error in API usage
         // Success, so render
         res.render('sessions_notified', {title: "'Notified' Sessions", sessions_notifiedCount: results.sessions_notifiedCount, sessions_notified: results.sessions_notified});
+    });
+};
+
+// Display list of 'confirmed' sessions
+exports.session_list_confirmed = function(req, res, next) {
+
+    async.parallel({
+        sessions_confirmedCount: function(callback) {
+            Session.countDocuments({ status: 'Confirmed' })
+                .exec(callback)
+        },
+        sessions_confirmed: function(callback) {
+            Session.find({ status: 'Confirmed' })
+                .sort([['createdAt', -1], ['first_name']])
+                .exec(callback)
+        },
+    }, function (err, results) {
+        if (err) { return next(err);} // Error in API usage
+        // Success, so render
+        res.render('sessions_confirmed', {title: "'Confirmed' Sessions", sessions_confirmedCount: results.sessions_confirmedCount, sessions_confirmed: results.sessions_confirmed});
     });
 };
 
@@ -518,7 +542,7 @@ exports.session_notify_post = function(req, res, next) {
 
         // Set the parameters
         const params = {
-            Message: ` Hi ${name}! We have a table for you! Please come in.` /* required */,
+            Message: ` Hi ${name}! This is Sugarbowl again. We have a table for you! Please come in.` /* required */,
             PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
         };
 
@@ -554,6 +578,28 @@ exports.session_notify_post = function(req, res, next) {
         run();
 
     });
+};
+
+// Archive request for Confirmed Sessions on GET
+exports.session_archiveRequestConfirmed_get = function(req, res, next) {
+    res.render('sessions_archive_request_confirmed', {title: 'Archive Sessions Request'})
+};
+
+// Archive request for Confirmed Sessions on POST
+exports.session_archiveRequestConfirmed_post = function(req, res, next) {
+    var date_iso = new Date(Date.now() - 3600000).toISOString() // Minus 1h in milliseconds; is date 1h ago in msec
+
+    if (req.body.archiveSessions == 'true') {
+        Session.updateMany({status: 'Confirmed', wait_end: { $lt: date_iso }}, {status: 'Archived'}, {new: true},
+            function (err, results) {
+                if (err) {return next(err);}
+                else {
+                    res.redirect('/waitlist/sessions/confirmed');
+                }
+            }
+        );
+    }
+    
 };
 
 // Archive request for Notified Sessions on GET
@@ -619,4 +665,20 @@ exports.session_notifyAll_post = function(req, res, next) {
         );
         
     }
+};
+
+// Confirming a session on POST
+exports.session_confirm_post = function(req, res, next) {
+
+    if (req.body.confirmSession == 'true') {
+        Session.findByIdAndUpdate(req.params.id, {status: 'Confirmed'}, {new: true},
+            function (err, session) {
+                if (err) {return next(err);}
+                else {
+                    res.redirect(session.urlPosition);
+                }
+            }
+        );
+    }
+    
 };

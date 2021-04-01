@@ -15,13 +15,15 @@ block content
                 li.nav-item
                     a.nav-link(href='/waitlist/sessions/notified') Notified
                 li.nav-item
+                    a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
+                li.nav-item
                     a.nav-link(href='/waitlist/sessions/archived') Archived
                 li.nav-item
                     a.nav-link(href='/waitlist/session/create') Create New
     main.container(role='main' style='padding: 60px;')
         h1 #{title}
         br     
-        p.lead Do you really want to archive #[strong sessions notified more than 1 hour ago]?
+        p.lead Do you really want to archive #[strong sessions Notified more than 1 hour ago]?
         br
         form(method='POST' action='')
             div.form-group(style='text-align: center;')

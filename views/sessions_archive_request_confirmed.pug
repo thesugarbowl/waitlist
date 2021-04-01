@@ -22,14 +22,13 @@ block content
                     a.nav-link(href='/waitlist/session/create') Create New
     main.container(role='main' style='padding: 60px;')
         h1 #{title}
-        h2 #{session.name}
         br     
-        p Do you really want to delete this Session?
+        p.lead Do you really want to archive #[strong sessions Notified more than 1 hour ago]?
         br
         form(method='POST' action='')
             div.form-group(style='text-align: center;')
-                input#sessionId.form-control(type='hidden', name='sessionId', required='true', value=session._id)
-                button.btn.btn-primary#detailbuttons(type='submit') Delete
+                input#archiveSessions.form-control(type='hidden', name='archiveSessions', required='true', value='true')
+                button.btn.btn-primary#detailbuttons(type='submit') Yes
         br
-        a(href=session.urlDetails)
+        a(href='/waitlist/sessions/confirmed')
             button.btn.btn-dark#detailbuttons No
