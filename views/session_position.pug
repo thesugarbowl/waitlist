@@ -24,8 +24,10 @@ block content
         p.lead You have been removed from the waitlist.
     br
     - if (session.status == 'Waiting')
-        p(style='margin-left:25px; margin-right:25px;') If you are #1-to-3 in line, you may be waiting up to 15-20 min. 
-        p(style='margin-left:25px; margin-right:25px;') If you are further back in line, please expect to wait longer. 
+        ul
+            li(style='margin-left:20px; margin-right:20px;') If you are #1-to-3 in line, you may be waiting up to 10-25 min. 
+            li(style='margin-left:20px; margin-right:20px;') If you are further back, you may be waiting 30 min or more. 
+            li(style='margin-left:20px; margin-right:20px;') #[strong When you are #1 in line, please be ready to come in.]
     hr
     h5 #[strong Your Details:]
     br 
