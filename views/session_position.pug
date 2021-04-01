@@ -2,8 +2,11 @@ extends layout
 
 block content 
     h1= title
-    p.lead You can bookmark this page to track your progress.
-    p (Remember to refresh the page!)
+    - if (session.status == 'Waiting')
+        h5(style='margin-left:8px; margin-right:8px;') #[strong Please bookmark this page to track your progress.]
+        ul
+            li #[strong Remember to refresh the page!]
+            li #[strong When you are notified to come in, the page also lets you confirm you are on your way.]
     hr
     h2 #[strong #{session.name}]
     br
@@ -28,7 +31,7 @@ block content
     br
     - if (session.status == 'Waiting')
         ul
-            li(style='margin-left:20px; margin-right:20px;') If you are #1-to-3 in line, you may be waiting up to 10-25 min. 
+            li(style='margin-left:20px; margin-right:20px;') If you are #1-to-3 in line, you may be waiting <em>up to</em> 10-25 min. 
             li(style='margin-left:20px; margin-right:20px;') If you are further back, you may be waiting 30 min or more. 
             li(style='margin-left:20px; margin-right:20px;') #[strong When you are #1 in line, please be ready to come in.]
     - else if (session.status == 'Notified')
