@@ -1,40 +1,40 @@
-extends layout 
+extends layout
 
-block content 
-  nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
-    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
-      span.navbar-toggler-icon
-    #main-navbar.collapse.navbar-collapse
-      ul.navbar-nav.mr-auto(style='margin-left: 10px;')
-        li.nav-item
-          a.nav-link(href='/waitlist/gravlaxisnotalaxative') Home/FAQ
-        li.nav-item
-          a.nav-link(href='/waitlist/sessions') Active
-        li.nav-item
-          a.nav-link(href='/waitlist/sessions/waiting') Waiting
-        li.nav-item
-          a.nav-link(href='/waitlist/sessions/notified') Notified
-        li.nav-item.active
-          a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
-        li.nav-item
-          a.nav-link(href='/waitlist/sessions/archived') Archived
-        li.nav-item
-          a.nav-link(href='/waitlist/session/create') Create New
-  main.container(role='main' style='padding: 60px;')
-    h1= title
-    ul
-        li #[strong Confirmed: ] #{sessions_confirmedCount}
-    p <em>Ordered by (1) wait time, (2) first name.</em>
-    ol
-        each session in sessions_confirmed
-            li 
-                a(href=session.urlDetails) #{session.name}
-                | ; party of #[strong #{session.party_num}]; #[strong #{session.seating}]; waited #[strong #{session.wait_completed} min] until notified
-                - if (session.has_cell == 'No')
-                  |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
-        else 
-            li There are no 'Confirmed' Sessions.
-    br
-    hr
-    a(href='/waitlist/sessions/archive-request-confirmed') 
-      button.btn.btn-primary(type='button') Archive Old Sessions
+block content
+    nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
+        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
+            span.navbar-toggler-icon
+        #main-navbar.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto(style='margin-left: 10px;')
+                li.nav-item
+                    a.nav-link(href='/waitlist/gravlaxisnotalaxative') Home/FAQ
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions') Active
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/waiting') Waiting
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/notified') Notified
+                li.nav-item.active
+                    a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/archived') Archived
+                li.nav-item
+                    a.nav-link(href='/waitlist/session/create') Create New
+    main.container(role='main' style='padding: 60px;')
+      h1= title
+      ul
+          li #[strong Confirmed: ] #{sessions_confirmedCount}
+      p <em>Ordered by (1) 'when' a Guest was notified (top = was notified the 'longest' time ago), then by (2) first name.</em>
+      ol
+          each session in sessions_confirmed
+              li 
+                  a(href=session.urlDetails) #{session.name}
+                  | ; party of #[strong(style='color:blue;') #{session.party_num}]; #[strong(style='color:#1F83FD;') #{session.seating}]; #[strong(style='color:#003BEF;') #{session.cell_num}]; waited #[strong #{session.wait_completed} min] until notified
+                  - if (session.has_cell == 'No')
+                    |; #[strong(style='color:red;') IS <em>NOT</em> CARRYING A SMART PHONE]
+          else 
+              li There are no 'Confirmed' Sessions.
+      br
+      hr
+      a(href='/waitlist/sessions/archive-request-confirmed') 
+        button.btn.btn-primary(type='button') Archive Old Sessions

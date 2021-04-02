@@ -83,7 +83,7 @@ exports.session_list_notified = function(req, res, next) {
         },
         sessions_notified: function(callback) {
             Session.find({ status: 'Notified' })
-                .sort([['createdAt'], ['first_name']])
+                .sort([['wait_end', 1], ['first_name']])
                 .exec(callback)
         },
     }, function(err, results) {
@@ -103,7 +103,7 @@ exports.session_list_confirmed = function(req, res, next) {
         },
         sessions_confirmed: function(callback) {
             Session.find({ status: 'Confirmed' })
-                .sort([['createdAt', -1], ['first_name']])
+                .sort([['wait_end', 1], ['first_name']])
                 .exec(callback)
         },
     }, function (err, results) {

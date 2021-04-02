@@ -24,14 +24,14 @@ block content
     h1= title
     ul
         li #[strong Waiting: ] #{sessions_waitCount}
-    p <em>Ordered by (1) wait time, (2) first name.</em>
+    p <em>Ordered by (1) 'when' a Guest started waiting (top = started waiting the 'longest' time ago), then by (2) first name.</em>
     ol
         each session in sessions_waiting
             li 
                 a(href=session.urlDetails) #{session.name}
-                | ; party of #[strong #{session.party_num}]; #[strong #{session.seating}]; waited #[strong #{session.wait_duration} min] so far
+                | ; party of #[strong(style='color:blue;')  #{session.party_num}]; #[strong(style='color:#1F83FD;')  #{session.seating}]; #[strong(style='color:#003BEF;') #{session.cell_num}]; waited #[strong #{session.wait_duration} min] so far
                 - if (session.has_cell == 'No')
-                  |; #[strong IS <em>NOT</em> CARRYING A SMART PHONE]
+                  |; #[strong(style='color:red;') IS <em>NOT</em> CARRYING A SMART PHONE]
         else 
             li There are no 'Waiting' Sessions.
     br
