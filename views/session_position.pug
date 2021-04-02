@@ -52,15 +52,17 @@ block content
     p #[strong Starting Waitlist Position: ] #{session.position}
     p #[strong Number Of People: ] #{session.party_num}
     p #[strong Seating Preference: ] #{session.seating}
-    p #[strong Cell Number: ] +1#{session.cell_num}
+    p #[strong Cell Number: ] #{session.cell_num}
     br
     - if (session.status == 'Waiting')
         a(href=session.urlPosition) 
             button.btn.btn-success#detailbuttons(type='button' style='margin-bottom: 40px;') Refresh Page
         br
         a(href=session.urlGuestUpdate) 
-            button.btn.btn-primary#detailbuttons(type='button' style='margin-bottom: 60px;') Update Details
-
+            button.btn.btn-primary#detailbuttons(type='button' style='margin-bottom: 40px;') Update Details
+        br
+        a(href=session.urlGuestRemove) 
+            button.btn.btn-danger#detailbuttons(type='button' style='margin-bottom: 60px;') Leave The Waitlist
 
 
 

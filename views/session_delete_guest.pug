@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+    main.container(role='main' style='padding: 60px;')  
+        h2(style='margin-top:30px;') Sorry for the wait #{session.first_name}!
+        br
+        h4 Are you sure you want to leave the Waitlist?
+        br
+        br
+        form(method='POST' action='')
+            div.form-group(style='text-align: center;')
+                input#sessionId.form-control(type='hidden', name='sessionId', required='true', value=session._id)
+                button.btn.btn-primary#detailbuttons(type='submit') Yes
+        br
+        a(href=session.urlPosition)
+            button.btn.btn-dark#detailbuttons No

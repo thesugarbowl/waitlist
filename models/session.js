@@ -21,12 +21,13 @@ var SessionSchema = new Schema(
         status: {
             type: String,
             required: true,
-            enum: ['Waiting', 'Notified', 'Confirmed', 'Archived'],
+            enum: ['Waiting', 'Notified', 'Confirmed', 'Archived', 'Removed'],
             default: 'Waiting'
         },
         position: {type: Number, min: 1},
         notify_total: {type: Number, required: true, default: 0}, 
-        wait_end: {type: Date}
+        wait_end: {type: Date},
+        removedAt: {type: Date}
 
     },
     {timestamps: {createdAt: true, updatedAt: false}}
@@ -81,6 +82,13 @@ SessionSchema
 .virtual('urlGuestUpdate')
 .get(function() {
     return '/waitlist/guest/' + this._id + '/update';
+});
+
+// Virtual for session's URL for guests to remove themselves from the Waitlist
+SessionSchema
+.virtual('urlGuestRemove')
+.get(function() {
+    return '/waitlist/guest/' + this._id + '/remove';
 });
 
 // Virtual for session's URL for staff
