@@ -42,7 +42,7 @@ exports.session_list_all = function(req, res, next) {
                 .exec(callback)
         },
         sessions_all: function(callback) {
-            Session.find().where('status').ne('Archived')
+            Session.find({status: {$ne: 'Archived'}, status: {$ne: 'Removed'}})
                 .sort([['createdAt', 1]])
                 .exec(callback)
         },
@@ -123,8 +123,8 @@ exports.session_list_archived = function(req, res, next) {
         },
         sessions_archived: function(callback) {
             var d = new Date();
-            var time6am = d.setHours(0,0,0);
-            Session.find({ status: 'Archived' , createdAt: { $gt: time6am }})
+            var timeMidnightEdmonton = d.setHours(18,0,0);
+            Session.find({ status: 'Archived' , createdAt: { $gt: timeMidnightEdmonton }})
                 .sort([['createdAt', -1], ['first_name']])
                 .exec(callback)
         },
@@ -345,25 +345,26 @@ exports.session_create_post_guest = [
                         if (err) {return next(err);}
                     });
                 
-                    // Send Guest SMS & Email
-                    var name = session.first_name;
-                    var cell_num = session.cell_num;
+                    // Because of AWS SNS cost, only 1 SMS will be sent to Guest, asking them to come in to the restaurant.
+                    // // Send Guest SMS & Email
+                    // var name = session.first_name;
+                    // var cell_num = session.cell_num;
   
-                    // Set the parameters
-                    const params = {
-                        Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
-                        PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
-                    };
+                    // // Set the parameters
+                    // const params = {
+                    //     Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
+                    //     PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
+                    // };
 
-                    const run = async () => {
-                        try {
-                            const data = await sns.send(new PublishCommand(params));
-                            // console.log("Success, message published. MessageID is " + data.MessageId);
-                        } catch (err) {
-                            console.error(err, err.stack);
-                        }
-                    };
-                    run();
+                    // const run = async () => {
+                    //     try {
+                    //         const data = await sns.send(new PublishCommand(params));
+                    //         // console.log("Success, message published. MessageID is " + data.MessageId);
+                    //     } catch (err) {
+                    //         console.error(err, err.stack);
+                    //     }
+                    // };
+                    // run();
                 });
             });
         }
@@ -393,6 +394,32 @@ exports.session_delete_post = function(req, res, next) {
             res.redirect('/waitlist/sessions')
         });
     });
+};
+
+// Display Session delete form on GET (GUEST)
+exports.session_delete_guest_get = function(req, res, next) {
+    Session.findById(req.params.id, function(err, session) {
+        if (err) {return next(err);}
+        if (session==null) { // No results
+            res.redirect('/waitlist/guest/create');
+        }
+        // Successful, so render
+        res.render('session_delete_guest', { title: 'Leave The Waitlist', session: session });
+    });
+};
+
+// Display Session delete on POST (GUEST)
+exports.session_delete_guest_post = function(req, res, next) {
+    Session.findByIdAndUpdate(req.body.sessionId, 
+        {status: 'Removed', removedAt: new Date()}, 
+        {new: true}, 
+        function (err, results) {
+            if (err) { return next(err); }
+            else {
+                res.redirect('/waitlist/guest/create');
+            }
+        }
+    );
 };
 
 // Display Session update form on GET
@@ -542,7 +569,7 @@ exports.session_notify_post = function(req, res, next) {
 
         // Set the parameters
         const params = {
-            Message: ` Hi ${name}! This is Sugarbowl again. We have a table for you! Please come in.` /* required */,
+            Message: ` Hi ${name}! This is Sugarbowl. We have a table for you! Please come in.` /* required */,
             PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
         };
 
@@ -562,7 +589,7 @@ exports.session_notify_post = function(req, res, next) {
                     function (err, results) {
                         if (err) { return next(err); }
                         else {
-                            res.render('successful_sms.pug', {title: 'Notification Confirmation', response: data.MessageId, results:results});
+                            res.render('successful_sms.pug', {title: 'Notification Attempted', response: data.MessageId, results:results});
                            
                             // console.log(`Session for ${results.name} was updated:`);
                             // console.log(`status: ${results.status}`);

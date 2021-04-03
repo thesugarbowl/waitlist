@@ -1,26 +1,26 @@
 extends layout
 
 block content
+    nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
+        button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
+            span.navbar-toggler-icon
+        #main-navbar.collapse.navbar-collapse
+            ul.navbar-nav.mr-auto(style='margin-left: 10px;')
+                li.nav-item.active
+                    a.nav-link(href='/waitlist/gravlaxisnotalaxative') Home/FAQ
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions') Active
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/waiting') Waiting
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/notified') Notified
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
+                li.nav-item
+                    a.nav-link(href='/waitlist/sessions/archived') Archived
+                li.nav-item
+                    a.nav-link(href='/waitlist/session/create') Create New
     main.container(role='main' style='padding: 60px;')
-        nav.navbar.navbar-expand-md.navbar-dark.bg-dark.fixed-top
-            button.navbar-toggler(type="button" data-toggle="collapse" data-target="#main-navbar" style='margin-left: 10px;')
-                span.navbar-toggler-icon
-            #main-navbar.collapse.navbar-collapse
-                ul.navbar-nav.mr-auto(style='margin-left: 10px;')
-                    li.nav-item.active
-                        a.nav-link(href='/waitlist') Home/FAQ
-                    li.nav-item
-                        a.nav-link(href='/waitlist/sessions') Active
-                    li.nav-item
-                        a.nav-link(href='/waitlist/sessions/waiting') Waiting
-                    li.nav-item
-                        a.nav-link(href='/waitlist/sessions/notified') Notified
-                    li.nav-item
-                        a.nav-link(href='/waitlist/sessions/confirmed') Confirmed
-                    li.nav-item
-                        a.nav-link(href='/waitlist/sessions/archived') Archived
-                    li.nav-item
-                        a.nav-link(href='/waitlist/session/create') Create New
         h1 Sugarbowl Waitlist
         br
         p.lead Welcome to our Waitlist App!
@@ -75,8 +75,8 @@ block content
                         ul
                             li The Guest will receive an SMS on their cell phone asking them to come in. 
                             li The Guest will be transferred from 'Waiting' to 'Notified'.
-                            li #[strong You may notify a Guest multiple times to come in by clicking the same 'Notify' button.] The Guest will receive the same SMS each time you do this. The '# Of Times Notified' and the time of 'First Notification' will be recorded in the Guest's Wait Session Details.
-                            li #[strong The Guest's phone number <em>is</em> provided in their Wait Session Details so you <em>can</em> phone them if, for example, they do not come to the restaurant despite the SMS. If you <em>do</em> phone the Guest to ask them to come in, please ensure you've already 'notified' them once using the app.]
+                            li #[strong(style='color:red;') Please notify a Guest <em>ONLY ONCE</em> to come in by clicking the 'Notify' button. This is because each SMS costs about 1 cent.] The 'Time Of Notification' will be recorded in the Guest's Wait Session Details.
+                            li #[strong The Guest's phone number is provided in their Wait Session Details so you can phone them if you want. If you <em>do</em> phone the Guest to ask them to come in, please ensure you've already 'notified' them once using the app because this transfers them from the 'Waiting' to the 'Notified' list.]
         ul 
             li To notify <em>all</em> Waiting Guests to come in: 
                 ul 
@@ -89,7 +89,7 @@ block content
             ul 
                 li This removes Guests from the lists who have been (1) waiting for more than 2 hours <em>or</em> (2) notified more than 1 hour ago. 
                 li Guests will be transferred from 'Waiting'/'Notified'/'Confirmed' to 'Archived'.
-                li #[strong 'Archived' only shows Guests who started their wait after 6AM today AND were archived].
+                li #[strong 'Archived' only shows Guests who started their wait after 00:00AM (Midnight) today AND were archived].
                 li You can still view a Guest's Wait Session Details after they've been archived by clicking the Guest Name. 
                 li #[strong You cannot 'un-archive' a guest to transfer them back to 'Waiting'/'Notified'/'Confirmed' lists.]
         br#create_wait
@@ -141,10 +141,10 @@ block content
                         tr
                             td
                                 h5(style='text-align: center;') #[strong Figure 1]
-                                img#image(src='/images/guest_waitSessionDetails.png' height='525' style='margin-right: 10px;')
+                                img#image(src='/images/guest_waitSessionDetails.png' height='500' style='margin-right: 10px;')
                             td
                                 h5(style='text-align: center;') #[strong Figure 2]
-                                img#image(src='/images/create_sms.png' width='375' style='margin: auto; margin-bottom: 10px;')
+                                img#image(src='/images/create_sms.png' width='300' style='margin: auto; margin-bottom: 10px;')
             li #[strong The Guest may click 'Update' on their Wait Session Details page] to update, for example, the number of people in their party, seating preference, phone number, name, or etc.
             li #[strong When we click 'Notify':]
                 ul 
@@ -157,10 +157,10 @@ block content
                             tr
                                 td
                                     h5(style='text-align: center;') #[strong Figure 3]
-                                    img#image(src='/images/notify_sms.png' width='375' style='margin: auto; margin-bottom: 10px;')
+                                    img#image(src='/images/notify_sms.png' width='300' style='margin: auto; margin-bottom: 10px;')
                                 td
                                     h5(style='text-align: center;') #[strong Figure 4]
-                                    img#image(src='/images/guest_notified.png' height='525' style='margin-left: 10px;')
+                                    img#image(src='/images/guest_notified.png' height='500' style='margin-left: 10px;')
             li #[strong The Guest can click a button on their Wait Session Details to confirm that they are coming in]. When they do this, #[strong their status changes from "Notified" to "Confirmed".]
             li Guest enters the restaurant.
         br
