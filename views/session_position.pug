@@ -53,7 +53,7 @@ block content
         p #[strong Starting Waitlist Position: ] #{session.position}
         p #[strong Number Of People: ] #{session.party_num}
         p #[strong Seating Preference: ] #{session.seating}
-        p #[strong Cell Number: ] +1-#{session.cell_num}
+        p #[strong Cell Number: ] #{session.cell_num}
         br
         - if (session.status == 'Waiting')
             a(href=session.urlPosition) 
