@@ -23,8 +23,8 @@ block content
                     option(value='Patio') Patio 
                     option(value='No Preference') No Preference
             div.form-group
-                label(for='cell_num') #[strong Phone Number*] (10 digits; no other characters)
-                input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
+                label(for='cell_num') #[strong Phone Number*] (10 digits with dashes; no other characters)
+                input#cell_num.form-control(type='tel' pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder='###-###-####' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
             div.form-group(style='text-align: center; margin-top:20px;')
                 button.btn.btn-primary#detailbuttons(type='submit') Submit
         - if (session != undefined)

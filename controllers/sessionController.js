@@ -184,12 +184,12 @@ exports.session_position = function(req, res, next) {
 
 };
 
-// Display Session create form on GET
+// Display Session create form on GET (by STAFF)
 exports.session_create_get = function(req, res, next) {
         res.render('session_form', {title: "Join Sugarbowl's Waitlist"});
 };
 
-// Display Session create on POST
+// Display Session create on POST (by STAFF)
 exports.session_create_post = [
     // Validate and sanitise fields
     body('first_name').trim().isLength({min:1}).escape().withMessage('First name required.')
@@ -253,25 +253,26 @@ exports.session_create_post = [
                         if (err) {return next(err);}
                     });
                 
-                    // Send Guest SMS & Email
-                    var name = session.first_name;
-                    var cell_num = session.cell_num;
+                    // Because of the cost of SMS, only 1 SMS will be sent to the Guest (notifying them to come in)
+                    // // Send Guest SMS
+                    // var name = session.first_name;
+                    // var cell_num = session.cell_num;
 
-                    // Set the parameters
-                    const params = {
-                        Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
-                        PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
-                    };
+                    // // Set the parameters
+                    // const params = {
+                    //     Message: `Hi ${name}! This is Sugarbowl. You are ${i} of ${waitingCount} in line. We will text you again to come in!` /* required */,
+                    //     PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
+                    // };
 
-                    const run = async () => {
-                        try {
-                          const data = await sns.send(new PublishCommand(params));
-                        //   console.log("Success, message published. MessageID is " + data.MessageId);
-                        } catch (err) {
-                          console.error(err, err.stack);
-                        }
-                    };
-                    run();
+                    // const run = async () => {
+                    //     try {
+                    //       const data = await sns.send(new PublishCommand(params));
+                    //     //   console.log("Success, message published. MessageID is " + data.MessageId);
+                    //     } catch (err) {
+                    //       console.error(err, err.stack);
+                    //     }
+                    // };
+                    // run();
                 });
             });
         }
@@ -583,8 +584,14 @@ exports.session_notify_post = function(req, res, next) {
                 notify_total = ++notify_total;
                 // console.log(notify_total);
 
+                if (session.wait_end) {
+                    var first_waitEnd = session.wait_end
+                } else {
+                    first_waitEnd = new Date();
+                }
+
                 Session.findByIdAndUpdate(req.params.id, 
-                    {status: 'Notified', wait_end: new Date(), notify_total: notify_total}, 
+                    {status: 'Notified', wait_end: first_waitEnd, notify_total: notify_total}, 
                     {new: true}, 
                     function (err, results) {
                         if (err) { return next(err); }
@@ -605,6 +612,56 @@ exports.session_notify_post = function(req, res, next) {
         run();
 
     });
+};
+
+// Already phoned Guest on GET
+exports.session_phonedGuest_get = function(req, res, next) {
+    // Get session for form
+    Session.findById(req.params.id, function(err, session) {
+        if (err) { return next(err); }
+        if (session == null) { // No results.
+            var err = new Error('Session not found');
+            err.status = 404;
+            return next(err);
+        }
+        // Success
+        res.render('session_notify_phoned', {title: "Transfer Guest?", session: session});
+    });
+};
+
+// Already phoned Guest on POST
+exports.session_phonedGuest_post = function(req, res, next) {
+    if (req.body.phonedGuest == 'true') {
+        Session.findById(req.params.id, function(err, session) {
+            if (err) { return next(err); }
+            if (session == null) { // No results.
+                var err = new Error('Session not found');
+                err.status = 404;
+                return next(err);
+            }
+            // Successful, so...
+            // Update the record
+            var notify_total = session.notify_total;
+            // console.log(notify_total);
+            notify_total = ++notify_total;
+            // console.log(notify_total);
+
+            if (session.wait_end) {
+                var first_waitEnd = session.wait_end
+            } else {
+                first_waitEnd = new Date();
+            }
+
+            Session.findByIdAndUpdate(req.params.id, {status: 'Notified', wait_end: first_waitEnd, notify_total: notify_total}, {new: true},
+                function (err, session) {
+                    if (err) {return next(err);}
+                    else {
+                        res.redirect(session.urlDetails);
+                    }
+                }
+            );
+        });
+    }
 };
 
 // Archive request for Confirmed Sessions on GET

@@ -47,11 +47,17 @@ router.get('/guest/:id/update', session_controller.session_update_get_guest);
 // POST request to update Session (FOR GUEST)
 router.post('/guest/:id/update', session_controller.session_update_post_guest);
 
-// GET request to notify Session
+// GET request to notify Session by SMS
 router.get('/session/:id/notify', session_controller.session_notify_get);
 
-// POST request to notify Session
+// POST request to notify Session by SMS
 router.post('/session/:id/notify', session_controller.session_notify_post);
+
+// GET request to notify Session by Phone
+router.get('/session/:id/notifyphone', session_controller.session_phonedGuest_get);
+
+// POST request to notify Session by Phone
+router.post('/session/:id/notifyphone', session_controller.session_phonedGuest_post);
 
 // GET request for one Session
 router.get('/session/:id', session_controller.session_detail);

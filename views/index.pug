@@ -23,12 +23,8 @@ block content
     main.container(role='main' style='padding: 60px;')
         h1 Sugarbowl Waitlist
         br
-        p.lead Welcome to our Waitlist App!
-        p Hopefully, the app is intuitive and you don't <em>have to</em> read the entire FAQ
-        p but #[strong please pay attention to statements in 'bold' font.]
-        p Alternatively, 
-            a(href='https://youtu.be/FRraR8KNh-0', target='_blank') click here 
-            | #[strong to watch a demo of the app on Youtube.]
+        p.lead #[strong Welcome to our Waitlist App!]
+        p #[strong For the FAQ, please pay attention to statements in 'bold' font.]
         br
         h2 FAQ
         ol 
@@ -50,7 +46,7 @@ block content
         hr
         h3 View the Waitlist 
         ol
-            li Click 'Active'/'Waiting'/'Notified' on the navigation bar to view Wait Lists. 
+            li Click 'Active'/'Waiting'/'Notified'/'Confirmed' on the navigation bar to view Wait Lists. 
             ul
                 li 'Active' contains 'Waiting' and 'Notified' Guests.
                 li 'Waiting' contains Guests you haven't notified to come in yet.
@@ -61,26 +57,29 @@ block content
                     ul 
                         li Notified to come in More Than 1 Hour ago.
                         li Waiting for More Than 2 Hours.
-            li Click any Guest Name in 'Active'/'Waiting'/'Notified' to view the Guest's Wait Session Details. 
+            li Click any Guest Name in 'Active'/'Waiting'/'Notified'/'Confirmed'/'Archived' to view the Guest's Wait Session Details. 
             ul
                 li #[strong Please note the 'Number Of People' and 'Seating Preference' for each Wait Session <em>before</em> you notify a Guest to come in.]
         br#notify_guests
         hr
         h3 Notify Guests 
         ul
-            li To notify a Guest to come in: 
+            li #[strong To notify a Guest to come in, you can either send them an SMS OR Phone them:]
                 ul 
                     li Click on a Guest Name in 'Waiting'.
-                    li Click 'Notify'.
+                    li Click #[strong 'Notify By SMS'].
                         ul
                             li The Guest will receive an SMS on their cell phone asking them to come in. 
                             li The Guest will be transferred from 'Waiting' to 'Notified'.
-                            li #[strong(style='color:red;') Please notify a Guest <em>ONLY ONCE</em> to come in by clicking the 'Notify' button. This is because each SMS costs about 1 cent.] The 'Time Of Notification' will be recorded in the Guest's Wait Session Details.
-                            li #[strong The Guest's phone number is provided in their Wait Session Details so you can phone them if you want. If you <em>do</em> phone the Guest to ask them to come in, please ensure you've already 'notified' them once using the app because this transfers them from the 'Waiting' to the 'Notified' list.]
+                            li #[strong(style='color:red;') Please notify a Guest to come in by SMS only <em>ONCE</em> by clicking the 'Notify By SMS' button. (This is because each SMS costs about 1 cent.)]
+                    li #[strong Alternatively, you can also phone the Guest to ask them to come in.] #[strong If you <em>have</em> phoned them, please click 'Already Phoned Guest' to transfer them from 'Waiting' to 'Notified'.]
+                    li #[strong(style='color:#003BEF;') The easiest way to phone a Guest is to bookmark the app's 'Waiting' page on your cell phone (app URL:] #[a(href='http://bit.ly/sugarwaitstaff' target='_blank') bit.ly/sugarwaitstaff] #[strong(style='color:#003BEF;') ), bring up the app, and click the Guest's phone number.]
+                    li The time of 'First Notification' (by SMS or phone) will be recorded in the Guest's Wait Session Details.
         ul 
-            li To notify <em>all</em> Waiting Guests to come in: 
+            li To notify <em>all</em> Waiting Guests by SMS to come in: 
                 ul 
                     li Click 'Waiting', then 'Notify All'. You'll be directed to a confirmation page asking you if you really want to do this. 
+            li #[strong Please <em>phone</em> when you can and use SMS for busier times since SMS costs money. Thanks!]
         br#clean_up
         hr
         h3 Clean up (Archive) old Wait Sessions
@@ -98,15 +97,14 @@ block content
         ol 
             li Click 'Create New' to create a new Wait Session for a Guest.
             li Fill out the form.
-            li The Guest will receive an SMS, informing them of their Position on the Waitlist (e.g. 2 of 5) and showing them the details that they provided (i.e. contact info, number of people, seating preference).
-            ul 
-                li The Guest will be added to the 'Waiting' and 'Active' lists.
+            li The Guest will be added to the 'Waiting' and 'Active' lists.
         ul 
             li #[strong If the Guest is <em>not</em> carrying a Smart Phone:]
                 ul
                     li #[strong The 'Create New' form has a checkbox for 'Is the Guest carrying a smart phone?']
-                    li #[strong Use 7806556817 or your own phone number (if you don't mind receiving spam).]
-                    li #[strong When a table is ready, please personally fetch the Guest from outside.]
+                    li #[strong Use 780-655-6817 or your own phone number (you won't receive spam).]
+                    li #[strong When a table is ready, click 'Already Phoned Guest' to transfer the Guest from 'Waiting' to 'Notified'.] 
+                    li #[strong Please personally fetch the Guest from outside.]
         br#update_wait
         hr
         h3 Update Wait Session Details 
@@ -132,36 +130,28 @@ block content
         p(style='text-align: left;') To join the Waitlist, the Guest:
         ol 
             li Connects to Wi-Fi or uses cell phone data.
-            li Scans the #[strong QR Code] or enters the #[strong URL] for the Waitlist into their browser.
+            li Scans the #[strong QR Code] or enters the #[strong URL] <#[a(href='http://bit.ly/sugarwait' target='_blank') bit.ly/sugarwait]> for the Waitlist into their browser. #[strong <em>(If the app hasn't been used in 30 min, it goes to sleep and takes a longer time to load back up. The same is true for the app's server interface.)</em>]
             li Submits the Guest version of the 'Create New' form.
                 ul 
-                    li The form redirects them to their Wait Session Details (the Guest version). #[strong The page displays their Position on the waitlist] (e.g. 2 of 5), contact info, etc. #[strong They may bookmark this page to track their progress] in the waitlist (Figure 1)
-                    li The Guest receives an #[strong SMS] informing them of their Position on the waitlist and that we'll send them another SMS to notify them to come in (Figure 2). 
-                    table.table-responsive#table_image
-                        tr
-                            td
-                                h5(style='text-align: center;') #[strong Figure 1]
-                                img#image(src='/images/guest_waitSessionDetails.png' height='500' style='margin-right: 10px;')
-                            td
-                                h5(style='text-align: center;') #[strong Figure 2]
-                                img#image(src='/images/create_sms.png' width='300' style='margin: auto; margin-bottom: 10px;')
-            li #[strong The Guest may click 'Update' on their Wait Session Details page] to update, for example, the number of people in their party, seating preference, phone number, name, or etc.
-            li #[strong When we click 'Notify':]
+                    li The form directs them to their Wait Session Details (the Guest version). #[strong The page displays their Position on the waitlist] (e.g. 2 of 5), contact info, etc. #[strong They are asked to bookmark this page to track their progress] in the waitlist (Figure 1).
+            h5(style='text-align: center;') #[strong Figure 1]
+            img#image(src='/images/guest_waitSessionDetails.png' height='500')
+            li #[strong The Guest may click 'Update' on their Wait Session Details page] to update the number of people in their party, seating preference, phone number, name, etc.
+            li #[strong If we click 'Notify By SMS':]
                 ul 
-                    li The Guest receives another #[strong SMS] notifying them to come in to the restaurant (Figure 3).
-                    li #[strong Their Wait Session Details will have updated - their 'Status' will have changed from 'Waiting' to 'Notified'. (Guests can also see the 'Number Of Times Notified' and the time of 'First Notification' on their Wait Session Details (Figure 4).)]
-                    li #[strong If we notify the Guest multiple times, the Guest will receive duplicate SMS notifying them to come in.] 
-                    ul
-                        li #[strong If the Guest is taking a long time to come in to the restaurant (in response to the SMS), we can call them (phone number available in their Wait Session Details - just click their name).]
-                        table.table-responsive#table_image
-                            tr
-                                td
-                                    h5(style='text-align: center;') #[strong Figure 3]
-                                    img#image(src='/images/notify_sms.png' width='300' style='margin: auto; margin-bottom: 10px;')
-                                td
-                                    h5(style='text-align: center;') #[strong Figure 4]
-                                    img#image(src='/images/guest_notified.png' height='500' style='margin-left: 10px;')
-            li #[strong The Guest can click a button on their Wait Session Details to confirm that they are coming in]. When they do this, #[strong their status changes from "Notified" to "Confirmed".]
+                    li The Guest receives an #[strong SMS] notifying them to come in to the restaurant (Figure 2). <em>(Figure 2 Modification: The second sentence in the SMS will read "This is Sugarbowl.")</em>
+                    li #[strong Their Wait Session Details will have updated - their 'Status' will have changed from 'Waiting' to 'Notified'. (Guests can also see the 'Number Of Times Notified' and the time of 'First Notification' on their Wait Session Details (Figure 3).)]
+            li #[strong Alternatively, we can Phone the Guest to ask them to come into the restaurant. By clicking 'Aready Phoned Guest', the Guest's status also changes from 'Waiting' to 'Notified', and the time of 'First Notification' and 'Number Of Times Notified' also change accordingly.] (So technically, you could send the Guest an SMS <em>and</em> Phone them (and use either/both methods multiple times), if that's what you want, but again SMS costs money.)
+            table.table-responsive#table_image
+                tr
+                    td
+                        h5(style='text-align: center;') #[strong Figure 2]
+                        img#image(src='/images/notify_sms.png' width='300' style='margin: auto; margin-bottom: 10px;')
+                    td
+                        h5(style='text-align: center;') #[strong Figure 3]
+                        img#image(src='/images/guest_notified.png' height='500' style='margin-left: 10px;')
+            li #[strong The Guest can drop out of the Waitlist by clicking a 'Leave The Waitlist' button on their Wait Session Details.]
+            li #[strong When the Guest is notified to come in, a button displays on their Wait Session Details allowing them to confirm that they are coming in]. When they do this, #[strong their status changes from "Notified" to "Confirmed".]
             li Guest enters the restaurant.
         br
         p(style='text-align: left;') #[strong If the Guest is <em>not</em> carrying a Smart Phone, see] 

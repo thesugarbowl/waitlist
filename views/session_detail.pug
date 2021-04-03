@@ -52,13 +52,16 @@ block content
     p #[strong # Of Times Notified: ] #{session.notify_total}
     p #[strong Number Of People: ] #{session.party_num}
     p #[strong Seating Preference: ] #{session.seating}
-    p #[strong Cell Number: ] #{session.cell_num}
+    p #[strong Cell Number: ] #[a(href=`tel:+1-#{session.cell_num}`) +1-#{session.cell_num}]
     br
     hr
     p
       a(href=session.urlDetails+'/notify') 
-        button.btn.btn-primary#detailbuttons(type='button') Notify Guest
+        button.btn.btn-primary#detailbuttons(type='button') Notify By SMS
     br
+    p
+      a(href=session.urlDetails+'/notifyphone') 
+        button.btn.btn-warning#detailbuttons(type='button') Already Phoned Guest
     br
     p
       a(href=session.urlDetails+'/update') 

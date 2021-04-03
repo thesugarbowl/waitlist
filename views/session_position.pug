@@ -4,13 +4,11 @@ block content
     main.container(role='main' style='padding: 10px;')
         h1= title
         - if (session.status == 'Waiting')
-            p.lead(style='margin-left:8px; margin-right:8px;') #[strong Hi #{session.first_name}! When we're ready for you to come in, we will send you an SMS. Your 'Status' will also change to 'Notified'.]
+            p.lead(style='margin-left:8px; margin-right:8px;') #[strong Hi #{session.first_name}! When we're ready for you to come in, we will send you an SMS or Phone you. Your 'Status' will also change to 'Notified'.]
             br
-            p.lead(style='margin-left:8px; margin-right:8px;') #[strong Please bookmark this page to track your progress on the Waitlist.]
-            ul
-                li #[strong Remember to refresh the page!]
-                li #[strong When your 'Status' changes to 'Notified', the page lets you confirm you are on your way.]
+            p.lead(style='margin-left:8px; margin-right:8px;') #[strong Please bookmark this page to track your progress on the Waitlist. (Remember to refresh the page!)]
         hr
+        br
         h2 #[strong #{session.name}]
         br
 
@@ -47,7 +45,7 @@ block content
         h5 #[strong Your Details:]
         br 
         - if (session.status == ('Notified'))
-            p #[strong # Of Times Notified] (by SMS): #{session.notify_total}
+            p #[strong # Of Times Notified] (by SMS/Phone Call): #{session.notify_total}
             p #[strong First Notification: ] #{session.waitEnd_localTime}
         - else if (session.status == ('Archived'))
             p #[strong # Of Times Notified ](text +/- email): #{session.notify_total}
@@ -55,7 +53,7 @@ block content
         p #[strong Starting Waitlist Position: ] #{session.position}
         p #[strong Number Of People: ] #{session.party_num}
         p #[strong Seating Preference: ] #{session.seating}
-        p #[strong Cell Number: ] #{session.cell_num}
+        p #[strong Cell Number: ] +1-#{session.cell_num}
         br
         - if (session.status == 'Waiting')
             a(href=session.urlPosition) 
