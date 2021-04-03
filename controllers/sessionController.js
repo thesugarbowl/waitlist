@@ -123,7 +123,7 @@ exports.session_list_archived = function(req, res, next) {
         },
         sessions_archived: function(callback) {
             var d = new Date();
-            var timeMidnightEdmonton = d.setHours(18,0,0);
+            var timeMidnightEdmonton = d.setHours(-6,0,0);
             Session.find({ status: 'Archived' , createdAt: { $gt: timeMidnightEdmonton }})
                 .sort([['createdAt', -1], ['first_name']])
                 .exec(callback)
