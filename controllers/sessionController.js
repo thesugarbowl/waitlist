@@ -42,7 +42,7 @@ exports.session_list_all = function(req, res, next) {
                 .exec(callback)
         },
         sessions_all: function(callback) {
-            Session.find().where('status').ne('Archived').ne('Removed')
+            Session.find().where('status').ne('Archived')
                 .sort([['createdAt', 1]])
                 .exec(callback)
         },
@@ -123,8 +123,8 @@ exports.session_list_archived = function(req, res, next) {
         },
         sessions_archived: function(callback) {
             var d = new Date();
-            var timeMidnightEdmonton = d.setHours(18,0,0);
-            Session.find({ status: 'Archived' , createdAt: { $gt: timeMidnightEdmonton }})
+            var time6am = d.setHours(0,0,0);
+            Session.find({ status: 'Archived' , createdAt: { $gt: time6am }})
                 .sort([['createdAt', -1], ['first_name']])
                 .exec(callback)
         },
@@ -393,32 +393,6 @@ exports.session_delete_post = function(req, res, next) {
             res.redirect('/waitlist/sessions')
         });
     });
-};
-
-// Display Session delete form on GET (GUEST)
-exports.session_delete_guest_get = function(req, res, next) {
-    Session.findById(req.params.id, function(err, session) {
-        if (err) {return next(err);}
-        if (session==null) { // No results
-            res.redirect('/waitlist/guest/create');
-        }
-        // Successful, so render
-        res.render('session_delete_guest', { title: 'Leave The Waitlist', session: session });
-    });
-};
-
-// Display Session delete on POST (GUEST)
-exports.session_delete_guest_post = function(req, res, next) {
-    Session.findByIdAndUpdate(req.body.sessionId, 
-        {status: 'Removed', removedAt: new Date()}, 
-        {new: true}, 
-        function (err, results) {
-            if (err) { return next(err); }
-            else {
-                res.redirect('/waitlist/guest/create');
-            }
-        }
-    );
 };
 
 // Display Session update form on GET

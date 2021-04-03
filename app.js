@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-// var helmet = require('helmet');
+var helmet = require('helmet');
 var session = require('cookie-session');
 var compression = require('compression');
 require('dotenv').config();
@@ -21,7 +21,7 @@ app.set('view engine', 'pug');
 // cookie-session code for production-only (still able to run in development mode though)
 app.set('trust proxy', 1) // trust first proxy
 
-// app.use(helmet());
+app.use(helmet());
 app.use(session({
   name: 'session',
   keys: ['eric', 'cartman'],

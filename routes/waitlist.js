@@ -29,12 +29,6 @@ router.get('/session/:id/delete', session_controller.session_delete_get);
 // POST request to delete Session
 router.post('/session/:id/delete', session_controller.session_delete_post);
 
-// GET request to delete Session (GUEST)
-router.get('/guest/:id/remove', session_controller.session_delete_guest_get);
-
-// POST request to delete Session (GUEST)
-router.post('/guest/:id/remove', session_controller.session_delete_guest_post);
-
 // GET request to update Session
 router.get('/session/:id/update', session_controller.session_update_get);
 
