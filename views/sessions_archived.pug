@@ -28,7 +28,7 @@ block content
           each session in sessions_archived
               li 
                   a(href=session.urlDetails) #{session.name}
-                  | ; party of #[strong(style='color:blue;') #{session.party_num}]; #[strong(style='color:#003BEF;') #{session.seating}]; #[a(href=`tel:+1-#{session.cell_num}`) +1-#{session.cell_num}]
+                  | ; party of #[strong(style='color:blue;') #{session.party_num}]; #[strong(style='color:#0094FF;') #{session.seating}]; #[strong(style='color:#003BEF;') +1-#{session.cell_num}]
                   | ; started waiting at #[strong #{session.waitStart_localTime}]
                   - if (session.has_cell == 'No')
                     |; #[strong(style='color:red;') IS <em>NOT</em> CARRYING A SMART PHONE]

@@ -42,7 +42,7 @@ exports.session_list_all = function(req, res, next) {
                 .exec(callback)
         },
         sessions_all: function(callback) {
-            Session.find({status: {$ne: 'Archived'}, status: {$ne: 'Removed'}})
+            Session.find({status: {$nin: ['Archived', 'Removed']}})
                 .sort([['createdAt', 1]])
                 .exec(callback)
         },
