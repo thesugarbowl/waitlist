@@ -55,9 +55,10 @@ block content
     p #[strong Cell Number: ] #{session.cell_num}
     br
     hr
-    p
-      a(href=session.urlDetails+'/notify') 
-        button.btn.btn-primary#detailbuttons(type='button') Notify By SMS
+    form(method='POST' action='')
+        div.form-group(style='text-align: center;')
+            input#notifyGuest.form-control(type='hidden', name='notifyGuest', required='true', value='true')
+            button.btn.btn-primary#detailbuttons(type='submit') Notify By SMS
     br
     p
       a(href=session.urlDetails+'/notifyphone') 

@@ -48,10 +48,7 @@ router.get('/guest/:id/update', session_controller.session_update_get_guest);
 router.post('/guest/:id/update', session_controller.session_update_post_guest);
 
 // GET request to notify Session by SMS
-router.get('/session/:id/notify', session_controller.session_notify_get);
-
-// POST request to notify Session by SMS
-router.post('/session/:id/notify', session_controller.session_notify_post);
+// router.get('/session/:id/notify', session_controller.session_notify_get);
 
 // GET request to notify Session by Phone
 router.get('/session/:id/notifyphone', session_controller.session_phonedGuest_get);
@@ -61,6 +58,9 @@ router.post('/session/:id/notifyphone', session_controller.session_phonedGuest_p
 
 // GET request for one Session
 router.get('/session/:id', session_controller.session_detail);
+
+// POST request to notify Session by SMS
+router.post('/session/:id', session_controller.session_notify_post);
 
 // GET request for one Session's position-in-line
 router.get('/guest/:id/position', session_controller.session_position);

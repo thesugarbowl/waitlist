@@ -377,7 +377,7 @@ exports.session_delete_get = function(req, res, next) {
     Session.findById(req.params.id, function(err, session) {
         if (err) {return next(err);}
         if (session==null) { // No results
-            res.redirect('/waitlist/sessions');
+            res.redirect('/waitlist/sessions/waiting');
         }
         // Successful, so render
         res.render('session_delete', { title: 'Delete Session', session: session });
@@ -392,7 +392,7 @@ exports.session_delete_post = function(req, res, next) {
         Session.findByIdAndRemove(req.body.sessionId, function deleteSession(err) {
             if (err) { return next(err); }
             // Success - go to sessions list
-            res.redirect('/waitlist/sessions')
+            res.redirect('/waitlist/sessions/waiting')
         });
     });
 };
@@ -540,78 +540,80 @@ exports.session_update_post_guest = [
 ];
 
 // Display Session notify form on GET
-exports.session_notify_get = function(req, res, next) {
-    // Get session for form
-    Session.findById(req.params.id, function(err, session) {
-        if (err) { return next(err); }
-        if (session == null) { // No results.
-            var err = new Error('Session not found');
-            err.status = 404;
-            return next(err);
-        }
-        // Success
-        res.render('session_notify_waitEnd', {title: "Notify Guest", session: session});
-    });
-};
+// exports.session_notify_get = function(req, res, next) {
+//     // Get session for form
+//     Session.findById(req.params.id, function(err, session) {
+//         if (err) { return next(err); }
+//         if (session == null) { // No results.
+//             var err = new Error('Session not found');
+//             err.status = 404;
+//             return next(err);
+//         }
+//         // Success
+//         res.render('session_notify_waitEnd', {title: "Notify Guest", session: session});
+//     });
+// };
 
 // Display Session notify on POST
 exports.session_notify_post = function(req, res, next) {
-    // Get session
-    Session.findById(req.body.sessionId, function(err, session) {
-        if (err) { return next(err); }
-        if (session == null) { // No results.
-            var err = new Error('Session not found');
-            err.status = 404;
-            return next(err);
-        }
-        // Success - send guest SMS and Email
-        var name = session.first_name;
-        var cell_num = session.cell_num;
-
-        // Set the parameters
-        const params = {
-            Message: ` Hi ${name}! This is Sugarbowl. We have a table for you! Please come in.` /* required */,
-            PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
-        };
-
-        const run = async () => {
-            try {
-                const data = await sns.send(new PublishCommand(params));
-
-                // Update the record
-                var notify_total = session.notify_total;
-                // console.log(notify_total);
-                notify_total = ++notify_total;
-                // console.log(notify_total);
-
-                if (session.wait_end) {
-                    var first_waitEnd = session.wait_end
-                } else {
-                    first_waitEnd = new Date();
-                }
-
-                Session.findByIdAndUpdate(req.params.id, 
-                    {status: 'Notified', wait_end: first_waitEnd, notify_total: notify_total}, 
-                    {new: true}, 
-                    function (err, results) {
-                        if (err) { return next(err); }
-                        else {
-                            res.render('successful_sms.pug', {title: 'Notification Attempted', response: data.MessageId, results:results});
-                           
-                            // console.log(`Session for ${results.name} was updated:`);
-                            // console.log(`status: ${results.status}`);
-                            // console.log(`wait_end: ${results.wait_end}`);
-                        }
-                    }
-                );
-                // console.log("Success, message published. MessageID is " + data.MessageId);
-            } catch (err) {
-                console.error(err, err.stack);
+    if (req.body.notifyGuest == 'true') {
+        // Get session
+        Session.findById(req.params.id, function(err, session) {
+            if (err) { return next(err); }
+            if (session == null) { // No results.
+                var err = new Error('Session not found');
+                err.status = 404;
+                return next(err);
             }
-        };
-        run();
+            // Success - send guest SMS and Email
+            var name = session.first_name;
+            var cell_num = session.cell_num;
 
-    });
+            // Set the parameters
+            const params = {
+                Message: ` Hi ${name}! This is Sugarbowl. We have a table for you! Please come in.` /* required */,
+                PhoneNumber: `+1${cell_num}` //PHONE_NUMBER, in the E.164 phone number structure
+            };
+
+            const run = async () => {
+                try {
+                    const data = await sns.send(new PublishCommand(params));
+
+                    // Update the record
+                    var notify_total = session.notify_total;
+                    // console.log(notify_total);
+                    notify_total = ++notify_total;
+                    // console.log(notify_total);
+
+                    if (session.wait_end) {
+                        var first_waitEnd = session.wait_end
+                    } else {
+                        first_waitEnd = new Date();
+                    }
+
+                    Session.findByIdAndUpdate(req.params.id, 
+                        {status: 'Notified', wait_end: first_waitEnd, notify_total: notify_total}, 
+                        {new: true}, 
+                        function (err, results) {
+                            if (err) { return next(err); }
+                            else {
+                                res.render('successful_sms.pug', {title: 'Notification Attempted', response: data.MessageId, results:results});
+                            
+                                // console.log(`Session for ${results.name} was updated:`);
+                                // console.log(`status: ${results.status}`);
+                                // console.log(`wait_end: ${results.wait_end}`);
+                            }
+                        }
+                    );
+                    // console.log("Success, message published. MessageID is " + data.MessageId);
+                } catch (err) {
+                    console.error(err, err.stack);
+                }
+            };
+            run();
+
+        });
+    };
 };
 
 // Already phoned Guest on GET
@@ -656,7 +658,7 @@ exports.session_phonedGuest_post = function(req, res, next) {
                 function (err, session) {
                     if (err) {return next(err);}
                     else {
-                        res.redirect(session.urlDetails);
+                        res.redirect('/waitlist/sessions/waiting');
                     }
                 }
             );
