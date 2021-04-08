@@ -31,10 +31,7 @@ block content
             p.lead You have been removed from the waitlist.
         br
         - if (session.status == 'Waiting')
-            ul
-                li(style='margin-left:20px; margin-right:20px;') If you are #1-to-3 in line, you may be waiting up to 10-25 min. 
-                li(style='margin-left:20px; margin-right:20px;') If you are further back, you may be waiting 30 min or more. 
-                li(style='margin-left:20px; margin-right:20px;') #[strong When you are #1 in line, please be ready to come in.]
+            p(style='margin-left:20px; margin-right:20px;') #[strong When you are #1 in line, please be ready to come in.]
         - else if (session.status == 'Notified')
             p.lead To confirm you are on your way
             form(method='POST' action='')
