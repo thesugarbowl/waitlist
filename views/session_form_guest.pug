@@ -19,9 +19,9 @@ block content
             div.form-group
                 label(for='seating') #[strong Seating Preference]
                 select#seating.form-control(type='select' placeholder='Select...' name='seating' required='false')
-                    option(value='Indoors') Indoors
+                    //- option(value='Indoors') Indoors
                     option(value='Patio') Patio 
-                    option(value='No Preference') No Preference
+                    //- option(value='No Preference') No Preference
             div.form-group
                 label(for='cell_num') #[strong Phone Number*] (10 digits; no other characters)
                 input#cell_num.form-control(type='tel' pattern="[0-9]{10}" placeholder='##########' name='cell_num' required='true' value=(undefined===session ? '' : session.cell_num))
