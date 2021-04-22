@@ -26,7 +26,7 @@ app.use(session({
   name: 'session',
   keys: ['eric', 'cartman'],
   cookie: {
-    secret: 'gravlaxisnotalaxative',
+    secret: process.env.SECRET,
     secure: true,
     httpOnly: true,
     resave: false,
@@ -50,8 +50,7 @@ app.use('/waitlist', waitlistRouter); // Add waitlist routes to middleware chain
 // Set up mongoose connection
 var mongoose = require('mongoose');
 const { response } = require('express');
-dev_db_url='mongodb+srv://patricialan:development@cluster0.vxl0f.mongodb.net/waitlist-development?retryWrites=true&w=majority'
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
+var mongoDB = process.env.MONGODB_URI || process.env.DEV_DB_URL;
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
